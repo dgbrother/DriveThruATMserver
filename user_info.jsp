@@ -87,6 +87,20 @@ while(rs.next()) {
 *   ===========================================================
 */
 
+/**
+*   {"data":
+*        [{
+*            "password":"PW1234!!",
+*            "carnumber":"CAR0012",
+*            "name":"hellozinad",
+*            "nfc":"nfc1234",
+*            "id":"ID1234",
+*            "email":"paul@gmail.com",
+*            "account":"00-000-00-0"
+*        }]
+*    }
+*/
+
 JSONObject jsonMain = new JSONObject();
 jsonMain.put("data", jsonArray);
 
