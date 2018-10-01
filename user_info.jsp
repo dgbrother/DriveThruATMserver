@@ -11,9 +11,10 @@ Connection conn = DriverManager.getConnection(myUrl, "root", "ghqkrth");
 String query = null;
 PreparedStatement preparedStmt = null;
 
+String userId = request.getParameter("userid");
+
 switch(action) {
     case "select":
-        String userId = request.getParameter("userid");
 
         query = "select * from customer where id = ?";
         preparedStmt = conn.prepareStatement(query);
@@ -22,7 +23,6 @@ switch(action) {
         break;
 
     case "update":
-        String userId = request.getParameter("userid");
         String id = request.getParameter("id");
         String password = request.getParameter("password");
         String name = request.getParameter("name");
@@ -36,10 +36,10 @@ switch(action) {
         preparedStmt.setString(1,id);
         preparedStmt.setString(2,password);
         preparedStmt.setString(3,name);
-        preparedStmt.setString(4,carnumber);
+        preparedStmt.setString(4,carNumber);
         preparedStmt.setString(5,email);
         preparedStmt.setString(6,account);
-        preparedStmt.setString(7,nfc);
+        preparedStmt.setString(7,nfcId);
         preparedStmt.setString(8,userId);
 
         preparedStmt.executeUpdate();
