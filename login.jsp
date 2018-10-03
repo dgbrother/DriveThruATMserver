@@ -17,7 +17,7 @@ String query = null;
 PreparedStatement preparedStmt = null;
 
 String inputId = request.getParameter("inputId");
-String password = request.getparameter("inputPassword");
+String inputPassword = request.getParameter("inputPassword");
 
 switch(action) {
     //   현재User의 User정보를 가져온다.
@@ -26,14 +26,16 @@ switch(action) {
         preparedStmt = conn.prepareStatement(query);
         preparedStmt.setString(1,inputId);
         
-        rs: = preparedStmt.executeQuery();
-        String confirmPassword;
-        
-        while(rs.next())
-            confirmPassword = rs.nextString("password");
+        ResultSet rs = preparedStmt.executeQuery();
+        String confirmPassword = "";
 
-        if(inputId.equals(confirmPassword))
+        while(rs.next())
+            confirmPassword = rs.getString("password");
+
+        if(inputPassword.equals(confirmPassword))
             out.println("login ok");
+	else
+	    out.println("login rejected");
         break;
 
     default:
