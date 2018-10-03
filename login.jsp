@@ -40,8 +40,7 @@ switch(action) {
 	    jsonObject.put("isConfirm","false");
 
     	out.print(jsonObject);
-	    
-        break;
+	break;
 
     default:
         break;
