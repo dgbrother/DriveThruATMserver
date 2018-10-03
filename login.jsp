@@ -31,12 +31,16 @@ switch(action) {
 
         while(rs.next())
             confirmPassword = rs.getString("password");
-
-        if(inputPassword.equals(confirmPassword))
-            out.println("login ok");
+        
+	JSONObject jsonObject = new JSONObject();
+	if(inputPassword.equals(confirmPassword))
+	    jsonObject.put("isConfirm","true");
+	
 	else
-	    out.println("login rejected");
-        break;
+	    jsonObject.put("isConfirm","false");
+
+    	out.print(jsonObject);
+	break;
 
     default:
         break;
