@@ -3,13 +3,48 @@
 <% 
 request.setCharacterEncoding("UTF-8");
 
-String function = request.getParameter("function");
-switch(function) {
+String device = request.getParameter("device");
+switch(device) {
+
+case "mobile": /*************************************/
+
+    String action = request.getParameter("action");
+    switch(action) {
+
     case "userInfo":
-        pageContext.forward("test.jsp");
-        break;
-    case "atmReservedWorks":
-	pageContext.forword("ATMReservedWorks");
-	break;
+        pageContext.forward("UserInfo.jsp"); break;
+    
+    case "businesses":
+        pageContext.forward("Businesses.jsp"); break;
+
+    }
+
+    break;
+
+case "atm": /****************************************/
+    
+    String action = request.getParameter("action");
+    switch(action) {
+
+    case "businesses":
+        pageContext.forword("Businesses.jsp"); break;
+
+    }
+
+    break;
+
+case "rasp": /***************************************/
+
+    String action = request.getParameter("action");
+    switch(action) {
+
+    case "empty":
+        pageContext.forword("empt"); break;
+
+    }
+
+default: /*******************************************/
+
 }
+
 %>
