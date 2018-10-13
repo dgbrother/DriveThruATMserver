@@ -22,9 +22,9 @@
 
     ArrayList<String> token = new ArrayList<>();
     token.add("fbypC9j0RtI:APA91bHJQtL7uL2BpNg8R_EADkTmrWl55oJdN7xMzYlPB1OsTRz2loBfAaIyosVV_INf26ywA80XLijmjUfE3U3maQv670xooJLrEFt-spJEbY-SOxLY_cMA0x3gKO-6mNnAndPVMyS2");
-    MulticastResult result = sender.send(message,token,RETRY);
-    if(result != null) {
-        List<Result> resultList = result.getResults();
+    MulticastResult mcresult = sender.send(message,token,RETRY);
+    if(mcresult != null) {
+        List<Result> resultList = mcresult.getResults();
         for(Result result : resultList) {
             System.out.println(result.getErrorCodeName());
         }
@@ -32,4 +32,3 @@
 
     out.println("test ok");
 %>
-
