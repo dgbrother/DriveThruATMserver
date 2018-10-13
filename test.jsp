@@ -33,7 +33,7 @@
     conn.close();
 
     out.println("Car Number: "+ carNumber);
-    out.println("token : "token.get(0));
+    out.println("token : "+token.get(0));
 
     MulticastResult mcresult = sender.send(message,token,RETRY);
     if(mcresult != null) {
