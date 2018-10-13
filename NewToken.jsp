@@ -10,7 +10,7 @@
     String newToken = request.getParameter("newToken");
 
     String query = "insert into token values(?)";
-    PreparedStatement preparedStmt = conn.prepareStatement(sql);
+    PreparedStatement preparedStmt = conn.prepareStatement(query);
     preparedStmt.setString(1,newToken);
     preparedStmt.execute();
 %>
