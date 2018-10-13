@@ -11,7 +11,7 @@
     String GCMURL = "https://android.googleapis.com/fc/send";
 
     String msg = "car is arrived";
-    String carnumber = "xx 가 1234";
+    String carnumber = request.getParameter("carNumber");
     Sender sender = new Sender(APIKEY);
     Message message = new Message.Builder()
     .collapseKey(MESSAGE_ID)
