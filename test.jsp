@@ -18,7 +18,7 @@
     .delayWhileIdle(SHOW_ON_IDLE)
     .timeToLive(LIVE_TIME)
     .addData("message", msg)
-    .addData("carnumber", carnumber);
+    .addData("carnumber", carnumber)
     .build();
 
     Class.forName("com.mysql.jdbc.Driver");
