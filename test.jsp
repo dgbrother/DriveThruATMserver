@@ -30,11 +30,9 @@
     ResultSet resultSet = preparedStmt.executeQuery();
 
     ArrayList<String> token = new ArrayList<>();
-    //while(resultSet.next())
-    //    token.add(resultSet.getString("token"));
-    token.add("fbypC9j0RtI:APA91bHJQtL7uL2BpNg8R_EADkTmrWl55oJdN7xMzYlPB1OsTRz2loBfAaIyosVV_INf26ywA80XLijmjUfE3U3maQv670xooJLrEFt-spJEbY-SOxLY_cMA0x3gKO-6mNnAndPVMyS2");
+    while(resultSet.next())
+        token.add(resultSet.getString("token"));
     conn.close();
-    out.println(token.get(0));
     MulticastResult mcresult = sender.send(message,token,RETRY);
     if(mcresult != null) {
         List<Result> resultList = mcresult.getResults();
