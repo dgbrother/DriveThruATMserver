@@ -33,7 +33,7 @@
     while(resultSet.next())
         token.add(resultSet.getString("token"));
     conn.close();
-
+    out.println(token.get(0));
     MulticastResult mcresult = sender.send(message,token,RETRY);
     if(mcresult != null) {
         List<Result> resultList = mcresult.getResults();
