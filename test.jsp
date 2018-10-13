@@ -10,15 +10,13 @@
     String APIKEY = "AIzaSyBb6h-ixtxx_TsZVudOEJTNDxOCE9V_y74";
     String GCMURL = "https://android.googleapis.com/fc/send";
 
-    String msg = "car is arrived";
-    String carnumber = request.getParameter("carNumber");
+    String carNumber = request.getParameter("carNumber");
     Sender sender = new Sender(APIKEY);
     Message message = new Message.Builder()
     .collapseKey(MESSAGE_ID)
     .delayWhileIdle(SHOW_ON_IDLE)
     .timeToLive(LIVE_TIME)
-    .addData("message", msg)
-    .addData("carnumber", carnumber)
+    .addData("carNumber", carNumber)
     .build();
 
     Class.forName("com.mysql.jdbc.Driver");
