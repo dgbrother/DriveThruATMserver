@@ -7,21 +7,33 @@
     boolean SHOW_ON_IDLE = false;
     int LIVE_TIME = 1;
     int RETRY = 2;
-
     String APIKEY = "AIzaSyBb6h-ixtxx_TsZVudOEJTNDxOCE9V_y74";
     String GCMURL = "https://android.googleapis.com/fc/send";
 
-    String msg = "msg from server";
+    String msg = "car is arrived";
+    String carnumber = "xx 가 1234";
     Sender sender = new Sender(APIKEY);
     Message message = new Message.Builder()
     .collapseKey(MESSAGE_ID)
     .delayWhileIdle(SHOW_ON_IDLE)
     .timeToLive(LIVE_TIME)
     .addData("message", msg)
+    .addData("carnumber", carnumber);
     .build();
 
+    Class.forName("com.mysql.jdbc.Driver");
+    String myUrl = "jdbc:mysql://localhost/jspdb";
+    Connection conn = DriverManager.getConnection(myUrl, "root", "ghqkrth");
+    
+    String query = "select * from token";
+    PreparedStatement preparedStmt = conn.prepareStatement(query);
+    ResultSet resultSet = preparedStmt.executeQuery();
+
     ArrayList<String> token = new ArrayList<>();
-    token.add("fbypC9j0RtI:APA91bHJQtL7uL2BpNg8R_EADkTmrWl55oJdN7xMzYlPB1OsTRz2loBfAaIyosVV_INf26ywA80XLijmjUfE3U3maQv670xooJLrEFt-spJEbY-SOxLY_cMA0x3gKO-6mNnAndPVMyS2");
+    while(rs.next())
+        token.add(rs.getString("token"));
+    conn.close();
+
     MulticastResult mcresult = sender.send(message,token,RETRY);
     if(mcresult != null) {
         List<Result> resultList = mcresult.getResults();
@@ -29,6 +41,4 @@
             System.out.println(result.getErrorCodeName());
         }
     }
-
-    out.println("test ok");
 %>
