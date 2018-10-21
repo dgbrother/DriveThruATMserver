@@ -23,10 +23,46 @@
     Class.forName("com.mysql.jdbc.Driver");
     String myUrl = "jdbc:mysql://localhost/jspdb";
     Connection conn = DriverManager.getConnection(myUrl, "root", "ghqkrth");
-    
-    String query = "select * from token";
+
+    String carNumber = request.getParameter("carNumber");
+
+    String query = "select * from customer where carNumber=?";
     PreparedStatement preparedStmt = conn.prepareStatement(query);
+    preparedStmt.setString(1,carNumber);
     ResultSet resultSet = preparedStmt.executeQuery();
+
+    ResultSet resultSet = null;
+    if(preparedStmt != null){
+        resultSet = preparedStmt.executeQuery();
+
+    JSONArray jsonArray = new JSONArray();
+    ResultSetMetaData rsmd = resultSet.getMetaData();
+
+    while(resultSet.next()) {
+        int numColumns = rsmd.getColumnCount();
+        JSONObject jsonObject = new JSONObject();
+        for(int i = 1; i <= numColumns; i++) {
+            String column_name = rsmd.getColumnName(i);
+            jsonObject.put(column_name, resultSet.getObject(column_name));
+        }   
+        jsonArray.add(jsonObject);
+    }
+
+    JSONObject jsonMain = new JSONObject();
+    jsonMain.put("data", jsonArray);
+
+    Sender sender = new Sender(APIKEY);
+    
+    Message message = new Message.Builder()
+    .collapseKey(MESSAGE_ID)
+    .delayWhileIdle(SHOW_ON_IDLE)
+    .timeToLive(LIVE_TIME)
+    .addData("carNumber", jsonMain)
+    .build();
+    
+    query = "select * from token";
+    preparedStmt = conn.prepareStatement(query);
+    resultSet = preparedStmt.executeQuery();
 
     ArrayList<String> token = new ArrayList<>();
     while(resultSet.next())
