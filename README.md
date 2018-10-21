@@ -11,6 +11,13 @@ $WEBDIR
 + json_simple-1.1.jar
 + gcm.server.jar
 
+### 인터페이스
+
+Server URL : http://35.200.117.1:8080
+
+
+---
+
 ### Table Schema
 
 ##### Customer
