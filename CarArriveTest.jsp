@@ -20,11 +20,7 @@
     PreparedStatement preparedStmt = conn.prepareStatement(query);
     preparedStmt.setString(1,carNumber);
     ResultSet resultSet = preparedStmt.executeQuery();
-
-    ResultSet resultSet = null;
-    if(preparedStmt != null){
-        resultSet = preparedStmt.executeQuery();
-
+    
     JSONArray jsonArray = new JSONArray();
     ResultSetMetaData rsmd = resultSet.getMetaData();
 
