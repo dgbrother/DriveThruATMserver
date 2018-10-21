@@ -38,7 +38,7 @@ case "rasp": /***************************************/
     String action = request.getParameter("action");
     switch(action) {
 
-    case "empty":
+    case "arrived":
         pageContext.forword("empt"); break;
 
     }
