@@ -13,10 +13,10 @@
     String carNumber = request.getParameter("carNumber");
     Sender sender = new Sender(APIKEY);
     
-    Message messageBuilder = new Message.Builder();
-    messageBuilder.collapseKey(MESSAGE_ID);
+    RemoteMessage.Builder messageBuilder = new RemoteMessage.Builder();
+    messageBuilder.setCollapseKey(MESSAGE_ID);
     messageBuilder.delayWhileIdle(SHOW_ON_IDLE);
-    messageBuilder.timeToLive(LIVE_TIME);
+    messageBuilder.setTtl(LIVE_TIME);
     messageBuilder.addData("carNumber", carNumber);
     Message message = messageBuilder.build();
 
