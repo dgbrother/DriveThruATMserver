@@ -10,16 +10,6 @@
     String APIKEY = "AIzaSyBb6h-ixtxx_TsZVudOEJTNDxOCE9V_y74";
     String GCMURL = "https://android.googleapis.com/fc/send";
 
-    String carNumber = request.getParameter("carNumber");
-    Sender sender = new Sender(APIKEY);
-    
-    RemoteMessage.Builder messageBuilder = new RemoteMessage.Builder();
-    messageBuilder.setCollapseKey(MESSAGE_ID);
-    messageBuilder.delayWhileIdle(SHOW_ON_IDLE);
-    messageBuilder.setTtl(LIVE_TIME);
-    messageBuilder.addData("carNumber", carNumber);
-    Message message = messageBuilder.build();
-
     Class.forName("com.mysql.jdbc.Driver");
     String myUrl = "jdbc:mysql://localhost/jspdb";
     Connection conn = DriverManager.getConnection(myUrl, "root", "ghqkrth");
