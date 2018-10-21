@@ -43,7 +43,7 @@
     .collapseKey(MESSAGE_ID)
     .delayWhileIdle(SHOW_ON_IDLE)
     .timeToLive(LIVE_TIME)
-    .addData("carNumber", jsonMain)
+    .addData("carNumber", jsonMain.toString())
     .build();
     
     query = "select * from token";
