@@ -11,17 +11,18 @@
     String userId = null;
     String carNumber = null;
     String query = null;
-    
+    PreparedStatement preparedStmt = null;
+
     if(from.equals("mobile")) {
         userId = request.getParameter("userId");
         query = "select * from reservation where id=?";
-        PreparedStatement preparedStmt = conn.prepareStatement(query);
+        preparedStmt = conn.prepareStatement(query);
         preparedStmt.setString(1,userId);
     }
     if(from.equals("machine")) {
         carNumber = request.getParameter("carNumber");
         query = "select * from reservation where carNumber=?";
-        PreparedStatement preparedStmt = conn.prepareStatement(query);
+        preparedStmt = conn.prepareStatement(query);
         preparedStmt.setString(1,carNumber);
     }
     ResultSet resultSet = preparedStmt.executeQuery();
