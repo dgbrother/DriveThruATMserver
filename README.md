@@ -45,10 +45,11 @@ carnumber varchar(20) not null,
 src_account varchar(20),
 dst_account varchar(20),
 amount varchar(20),
-isdone varchar(2)
+isdone varchar(2),
+type varchar(10)
 );
 ```
-
+* type : 'send'(송금), 'withdraw'(출금), 'deposit'(입금)
 ```
-insert into reservation values('ID1111','CAR0012','00-000-00-0','22-222-22-2','30000','F');
+insert into reservation values('ID1111','CAR0012','00-000-00-0','22-222-22-2','30000','F','send');
 ```
