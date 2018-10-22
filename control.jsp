@@ -3,48 +3,25 @@
 <% 
 request.setCharacterEncoding("UTF-8");
 
-String device = request.getParameter("device");
-switch(device) {
+String type = request.getParameter("type");
+String action = request.getParameter("action");
 
-case "mobile": /*************************************/
-
-    String action = request.getParameter("action");
-    switch(action) {
-
-    case "userInfo":
-        pageContext.forward("UserInfo.jsp"); break;
-    
-    case "businesses":
-        pageContext.forward("Businesses.jsp"); break;
-
-    }
-
+switch(type) {
+case "user":
+    // 유저 정보 조회, 유저 정보 수정
+    if(action.equals("select"))
+        pageContext.forward("test_UserInfo.jsp");
+    else if(action.equals("update"))
+        pageContext.forward("test_UserUpdate.jsp");
     break;
 
-case "atm": /****************************************/
-    
-    String action = request.getParameter("action");
-    switch(action) {
-
-    case "businesses":
-        pageContext.forword("Businesses.jsp"); break;
-
-    }
-
+case "reservation":
+    // 예약 정보 조회, 예약 정보 추가, 예약 정보 수정
+    pageContext.forward("Reservation.jsp");
     break;
 
-case "rasp": /***************************************/
-
-    String action = request.getParameter("action");
-    switch(action) {
-
-    case "arrived":
-        pageContext.forword("empt"); break;
-
-    }
-
-default: /*******************************************/
-
+case "arrived":
+    pageContext.forword("empt");
+    break;
 }
-
 %>

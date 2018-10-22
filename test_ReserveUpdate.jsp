@@ -53,6 +53,7 @@
         String APIKEY = "AIzaSyBb6h-ixtxx_TsZVudOEJTNDxOCE9V_y74";
         String GCMURL = "https://android.googleapis.com/fc/send";
 
+        Sender sender = new Sender(APIKEY);
         Message message = new Message.Builder()
         .collapseKey(MESSAGE_ID)
         .delayWhileIdle(SHOW_ON_IDLE)
@@ -67,10 +68,8 @@
         ArrayList<String> token = new ArrayList<>();
         while(resultSet.next())
             token.add(resultSet.getString("token"));
-        conn.close();
 
-        Sender sender = new Sender(APIKEY);
         MulticastResult mcresult = sender.send(message,token,RETRY);
-        // mcresult : send 결과
     }
+    conn.close();
 %>
