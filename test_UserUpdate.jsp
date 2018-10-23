@@ -13,7 +13,7 @@ Connection conn = DriverManager.getConnection(myUrl, "root", "ghqkrth");
 String query = null;
 PreparedStatement preparedStmt = null;
 
-String userId = request.getParameter("userid");
+String userId = request.getParameter("userId");
 //  현재User의 User정보를 Parameter값으로 업데이트한다.
 //  Android에서 넘어온 Parameter 저장
 String id           = request.getParameter("id");
@@ -22,7 +22,7 @@ String name         = request.getParameter("name");
 String email        = request.getParameter("email");
 String account      = request.getParameter("account");
 String carNumber    = request.getParameter("carNumber");
-String nfcId        = request.getParameter("nfcid");
+String nfcId        = request.getParameter("nfcId");
 
 //  새로운 User정보로 업데이트 쿼리 작성
 query = "update customer set id=?, password=?, name=?, carnumber=?, email=?, account=?, nfc=? where id=?";

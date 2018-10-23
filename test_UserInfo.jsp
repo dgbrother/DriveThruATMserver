@@ -11,7 +11,7 @@ Connection conn = DriverManager.getConnection(myUrl, "root", "ghqkrth");
 
 String query = null;
 PreparedStatement preparedStmt = null;
-String userId = request.getParameter("userid");
+String userId = request.getParameter("userId");
 
 query = "select * from customer where id = ?";
 preparedStmt = conn.prepareStatement(query);
