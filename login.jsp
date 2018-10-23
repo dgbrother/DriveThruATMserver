@@ -19,29 +19,22 @@ PreparedStatement preparedStmt = null;
 String inputId = request.getParameter("inputId");
 String inputPassword = request.getParameter("inputPassword");
 
-switch(action) {
-    //   현재User의 User정보를 가져온다.
-    case "login":
-        query = "select password from customer where id = ?";
-        preparedStmt = conn.prepareStatement(query);
-        preparedStmt.setString(1,inputId);
-        
-        ResultSet rs = preparedStmt.executeQuery();
-        String confirmPassword = "";
+query = "select password from customer where id = ?";
+preparedStmt = conn.prepareStatement(query);
+preparedStmt.setString(1,inputId);
 
-        while(rs.next())
-            confirmPassword = rs.getString("password");
-        
-	JSONObject jsonObject = new JSONObject();
-	if(inputPassword.equals(confirmPassword))
-	    jsonObject.put("isConfirm","true");
-	else
-	    jsonObject.put("isConfirm","false");
-    out.print(jsonObject);
-	break;
+ResultSet rs = preparedStmt.executeQuery();
+String confirmPassword = "";
 
-    default:
-        break;
-}
+if(rs.next())
+    confirmPassword = rs.getString("password");
+
+JSONObject jsonObject = new JSONObject();
+if(inputPassword.equals(confirmPassword))
+    jsonObject.put("isConfirm","true");
+else
+    jsonObject.put("isConfirm","false");
+
+out.print(jsonObject);
 conn.close();
 %>
