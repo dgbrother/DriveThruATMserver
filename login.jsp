@@ -32,8 +32,8 @@ if(rs.next())
 JSONObject jsonObject = new JSONObject();
 if(inputPassword.equals(confirmPassword)) {
     jsonObject.put("isConfirm","true");
-    pageContext.forward("control.jsp?type=user&action=select&userid="+inputId);
-    /*
+    //pageContext.forward("control.jsp?type=user&action=select&userid="+inputId);
+    
     query = "select * from customer where id = ?";
     preparedStmt = conn.prepareStatement(query);
     preparedStmt.setString(1,inputId);
@@ -52,7 +52,6 @@ if(inputPassword.equals(confirmPassword)) {
             }
         }
     }
-    */
 }
 else
     jsonObject.put("isConfirm","false");
