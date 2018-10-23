@@ -35,8 +35,6 @@ if(preparedStmt != null){
         //  Android로 변환된 JSON 출력
         out.println(jsonObject);
     }
-    else
-        out.print();
 }
 conn.close();
 preparedStmt.close();
