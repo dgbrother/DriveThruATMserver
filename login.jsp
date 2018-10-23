@@ -19,7 +19,7 @@ PreparedStatement preparedStmt = null;
 String inputId = request.getParameter("inputId");
 String inputPassword = request.getParameter("inputPassword");
 
-query = "select * from customer where id = ?";
+query = "select password from customer where id = ?";
 preparedStmt = conn.prepareStatement(query);
 preparedStmt.setString(1,inputId);
 
@@ -32,7 +32,8 @@ if(rs.next())
 JSONObject jsonObject = new JSONObject();
 if(inputPassword.equals(confirmPassword)) {
     jsonObject.put("isConfirm","true");
-    
+    pageContext.forward("control.jsp?type=user&action=select&userid="+inputId);
+    /*
     query = "select * from customer where id = ?";
     preparedStmt = conn.prepareStatement(query);
     preparedStmt.setString(1,inputId);
@@ -49,10 +50,9 @@ if(inputPassword.equals(confirmPassword)) {
                 String column_name = rsmd.getColumnName(i);
                 jsonObject.put(column_name, rs.getObject(column_name));
             }
-            //  Android로 변환된 JSON 출력
-            out.println(jsonObject);
         }
     }
+    */
 }
 else
     jsonObject.put("isConfirm","false");
