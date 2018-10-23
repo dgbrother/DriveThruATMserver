@@ -3,6 +3,9 @@
 <%
     request.setCharacterEncoding("UTF-8");
 
+    /*
+    * DB Connection 및 기본 변수 설정
+    */
     Class.forName("com.mysql.jdbc.Driver");
     String myUrl = "jdbc:mysql://localhost/jspdb";
     Connection conn = DriverManager.getConnection(myUrl, "root", "ghqkrth");
@@ -13,6 +16,11 @@
     String query = null;
     PreparedStatement preparedStmt = null;
 
+    /*
+    * mobile(모바일 앱)에서 보낸 요청 일 경우 user id,
+    * machine(ATM) 에서 보낸 요청 일 경우 car number를
+    * 사용해 예약 정보 select 쿼리 실행
+    */
     if(from.equals("mobile")) {
         userId = request.getParameter("userId");
         query = "select * from reservation where id=?";
@@ -27,6 +35,9 @@
     }
     ResultSet resultSet = preparedStmt.executeQuery();
     
+    /*
+    * 쿼리 결과를 JSON 형식으로 저장
+    */
     JSONArray jsonArray = new JSONArray();
     ResultSetMetaData rsmd = resultSet.getMetaData();
     while(resultSet.next()) {
@@ -42,6 +53,10 @@
     JSONObject jsonMain = new JSONObject();
     jsonMain.put("data", jsonArray);
 
+    /*
+    * mobile(모바일 앱) 일 경우 JSON 결과 전송
+    * machine(ATM) 일 경우 FCM으로 JSON 결과 전송
+    */
     if(from.equals("mobile"))
         out.print(jsonMain);
 

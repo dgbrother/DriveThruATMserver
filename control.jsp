@@ -21,7 +21,6 @@ case "reservation":
     break;
 
 case "arrived":
-    pageContext.forword("empt");
     break;
 }
 %>
