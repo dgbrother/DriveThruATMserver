@@ -41,7 +41,7 @@ if(preparedStmt != null){
     out.println(jsonMain);
 }
 conn.close();
-
+preparedStmt.close();
 /**
 *   JSON 구조 :
 *   |JSONObject(jsonMain)    =================================|

@@ -23,15 +23,17 @@
     */
     if(from.equals("mobile")) {
         userId = request.getParameter("userId");
-        query = "select * from reservation where id=?";
+        query = "select * from reservation where id=? and isDone=?";
         preparedStmt = conn.prepareStatement(query);
         preparedStmt.setString(1,userId);
+        preparedStmt.setString(2,"F");
     }
     if(from.equals("machine")) {
         carNumber = request.getParameter("carNumber");
-        query = "select * from reservation where carNumber=?";
+        query = "select * from reservation where carNumber=? and isDone=?";
         preparedStmt = conn.prepareStatement(query);
         preparedStmt.setString(1,carNumber);
+        preparedStmt.setString(2,"F");
     }
     ResultSet resultSet = preparedStmt.executeQuery();
     
@@ -54,38 +56,42 @@
     jsonMain.put("data", jsonArray);
 
     /*
-    * mobile(모바일 앱) 일 경우 JSON 결과 전송
-    * machine(ATM) 일 경우 FCM으로 JSON 결과 전송
+    * mobile(모바일 앱), machine(ATM) 일 경우 JSON 결과 전송
+    * raspberry(차량 접근) 일 경우 FCM으로 JSON 결과 전송
     */
-    if(from.equals("mobile"))
-        out.print(jsonMain);
+    switch(from) {
+        case "mobile":
+        case "machine":
+            out.print(jsonMain);
+            break;
+        case "raspberry":
+            String MESSAGE_ID = String.valueOf(Math.random() % 100 + 1);
+            boolean SHOW_ON_IDLE = false;
+            int LIVE_TIME = 1;
+            int RETRY = 2;
+            String APIKEY = "AIzaSyBb6h-ixtxx_TsZVudOEJTNDxOCE9V_y74";
+            String GCMURL = "https://android.googleapis.com/fc/send";
 
-    if(from.equals("machine")) {
-        String MESSAGE_ID = String.valueOf(Math.random() % 100 + 1);
-        boolean SHOW_ON_IDLE = false;
-        int LIVE_TIME = 1;
-        int RETRY = 2;
-        String APIKEY = "AIzaSyBb6h-ixtxx_TsZVudOEJTNDxOCE9V_y74";
-        String GCMURL = "https://android.googleapis.com/fc/send";
+            Message message = new Message.Builder()
+            .collapseKey(MESSAGE_ID)
+            .delayWhileIdle(SHOW_ON_IDLE)
+            .timeToLive(LIVE_TIME)
+            .addData("carNumber", jsonMain.toString())
+            .build();
+            
+            query = "select * from token";
+            preparedStmt = conn.prepareStatement(query);
+            resultSet = preparedStmt.executeQuery();
 
-        Message message = new Message.Builder()
-        .collapseKey(MESSAGE_ID)
-        .delayWhileIdle(SHOW_ON_IDLE)
-        .timeToLive(LIVE_TIME)
-        .addData("carNumber", jsonMain.toString())
-        .build();
-        
-        query = "select * from token";
-        preparedStmt = conn.prepareStatement(query);
-        resultSet = preparedStmt.executeQuery();
+            ArrayList<String> token = new ArrayList<>();
+            while(resultSet.next())
+                token.add(resultSet.getString("token"));
 
-        ArrayList<String> token = new ArrayList<>();
-        while(resultSet.next())
-            token.add(resultSet.getString("token"));
-        conn.close();
-
-        Sender sender = new Sender(APIKEY);
-        MulticastResult mcresult = sender.send(message,token,RETRY);
-        // mcresult : send 결과
+            Sender sender = new Sender(APIKEY);
+            MulticastResult mcresult = sender.send(message,token,RETRY);
+            // mcresult : send 결과
+            break;
     }
+    conn.close();
+    preparedStmt.close();
 %>
