@@ -7,12 +7,13 @@ String type = request.getParameter("type");
 String action = request.getParameter("action");
 
 switch(type) {
-case "login":
-    pageContext.forward("login.jsp");
-    break;
+
 case "user":
     // 유저 정보 조회, 유저 정보 수정
     switch(action) {
+        case "login":
+            pageContext.forward("login.jsp");
+            break;
         case "select":
             pageContext.forward("test_UserInfo.jsp");
             break;
