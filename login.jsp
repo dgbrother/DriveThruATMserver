@@ -37,7 +37,7 @@ if(inputPassword.equals(confirmPassword)) {
     preparedStmt = conn.prepareStatement(query);
     preparedStmt.setString(1,inputId);
 
-    ResultSet rs = null;
+    rs = null;
     if(preparedStmt != null){
         rs = preparedStmt.executeQuery();
         //  ResultSet 결과를 JSON 형식으로 변환
