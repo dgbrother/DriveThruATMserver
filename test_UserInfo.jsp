@@ -25,7 +25,8 @@ if(preparedStmt != null){
     JSONObject jsonObject = null;
     ResultSetMetaData rsmd = rs.getMetaData();
 
-    while(rs.next()) {
+    if(rs.next()) {
+        jsonObject = new JSONObject();
         int numColumns = rsmd.getColumnCount();
         for(int i = 1; i <= numColumns; i++) {
             String column_name = rsmd.getColumnName(i);
