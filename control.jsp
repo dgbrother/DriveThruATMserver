@@ -17,6 +17,7 @@ case "user":
             pageContext.forward("test_UserUpdate.jsp");
             break;
     }
+    break;
 
 case "reservation":
     // 예약 정보 조회, 예약 정보 추가, 예약 정보 수정
@@ -28,6 +29,7 @@ case "reservation":
             pageContext.forward("test_ReserveUpdate.jsp");
             break;
     }
+    break;
 
 case "arrived":
     break;
