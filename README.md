@@ -26,7 +26,7 @@ $WEBDIR
 
 + type : "user"
 + action : "select"  
-+ userId : "*유저아이디*"
++ userId : "현재 유저 아이디"
 
 **예시**
 
@@ -64,7 +64,8 @@ JSON Object
 
 + type : "user"
 + action : "update"  
-+ userId : "*유저아이디*"
++ userId : "현재 유저 아이디"
++ id | password | name | email | account | carNumber | nfcId
 
 **예시**
 
