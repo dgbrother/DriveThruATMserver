@@ -35,11 +35,9 @@ switch(action) {
 	JSONObject jsonObject = new JSONObject();
 	if(inputPassword.equals(confirmPassword))
 	    jsonObject.put("isConfirm","true");
-	
 	else
 	    jsonObject.put("isConfirm","false");
-
-    	out.print(jsonObject);
+    out.print(jsonObject);
 	break;
 
     default:
