@@ -35,7 +35,7 @@ if(inputPassword.equals(confirmPassword)) {
     
     query = "select * from customer where id = ?";
     preparedStmt = conn.prepareStatement(query);
-    preparedStmt.setString(1,userId);
+    preparedStmt.setString(1,inputId);
 
     ResultSet rs = null;
     if(preparedStmt != null){
