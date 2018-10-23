@@ -36,7 +36,7 @@ if(preparedStmt != null){
         out.println(jsonObject);
     }
     else
-        out.print(null);
+        out.print();
 }
 conn.close();
 preparedStmt.close();
