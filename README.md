@@ -13,7 +13,7 @@ $WEBDIR
 
 ## 인터페이스
 
-> Server URL : http://35.200.117.1:8080/control.jsp
+> Base URL : http://35.200.117.1:8080/control.jsp
 
 ### 구현 된 기능
 
@@ -31,26 +31,76 @@ $WEBDIR
 **예시**
 
 ```
-http://35.200.117.1:8080/control.jsp?type=user&action=select&userid=ID1111
+String BASE_URL = "http://35.200.117.1:8080/control.jsp"
+
+ContentValues params = new ContentValues();
+        params.put("type",      "user");
+        params.put("action",    "select");
+        params.put("userId",    currentUserId);
+
+NetworkTask getUserInfoTask = new NetworkTask(BASE_URL, params);
+getUserInfoTask.execute();
 ```
 
 **결과**
 ```
+JSON Object
 {
-    "data": [
-        {
-            "password": "PW1111",
-            "carnumber": "CAR0012",
-            "name": "hello",
-            "nfc": "nfc1234",
-            "id": "ID1111",
-            "email": "paul@gmail.com",
-            "account": "00-000-00-0"
-        }
-    ]
+    "password": "PW1234!!",
+    "carnumber": "12GK 1234",
+    "name": "Ana Jo",
+    "nfc": "nfc1234",
+    "id": "ID1234",
+    "email": "Ana@Joo.com",
+    "account": "00-000-00-0"
 }
 ```
-#### [구현 기능 리스트](#구현-된-기능)
+#### [목록으로](#구현-된-기능)
+---
+
+### 유저 정보 수정
+
+**parameter**
+
++ type : "user"
++ action : "update"  
++ userId : "*유저아이디*"
+
+**예시**
+
+```
+String BASE_URL = http://35.200.117.1:8080/control.jsp?
+
+ContentValues params = new ContentValues();
+        params.put("type",      "user");
+        params.put("action",    "update");
+        params.put("userId",    currentUserId);
+        params.put("id",        eUserID         .getText().toString());
+        params.put("password",  eUserPassword   .getText().toString());
+        params.put("name",      eUserName       .getText().toString());
+        params.put("email",     eUserEmail      .getText().toString());
+        params.put("account",   eUserAccount    .getText().toString());
+        params.put("carNumber", eUserCarNumber  .getText().toString());
+        params.put("nfcId",     eUserNFCID      .getText().toString());
+
+NetworkTask updateUserInfoTask = new NetworkTask(BASE_URL, params);
+updateUserInfoTask.execute();
+```
+
+**결과**
+```
+JSON Object (수정 된 UserInfo)
+{
+    "password": "PW1234!!",
+    "carnumber": "12GK 1234",
+    "name": "Ana Jo",
+    "nfc": "nfc1234",
+    "id": "ID1234",
+    "email": "Ana@Joo.com",
+    "account": "00-000-00-0"
+}
+```
+#### [목록으로](#구현-된-기능)
 ---
 
 ### Table Schema
