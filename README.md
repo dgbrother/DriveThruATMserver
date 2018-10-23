@@ -33,6 +33,9 @@ account varchar(20) not null,
 nfc varchar(20)
 );
 ```
+
+입력 샘플
+
 ```
 insert into customer values('ID1234','PW1234!!','hellozin','CAR0012','paul@gmail.com','00-000-00-0','nfc1234');
 ```
@@ -40,6 +43,7 @@ insert into customer values('ID1234','PW1234!!','hellozin','CAR0012','paul@gmail
 
 ```
 create table reservation (
+no int(10) not null auto_increment primary key,
 id varchar(20) not null,
 carnumber varchar(20) not null,
 src_account varchar(20),
@@ -49,7 +53,14 @@ isdone varchar(2),
 type varchar(10)
 );
 ```
+
 * type : 'send'(송금), 'withdraw'(출금), 'deposit'(입금)
+  
+입력 샘플
+
 ```
-insert into reservation values('ID1111','CAR0012','00-000-00-0','22-222-22-2','30000','F','send');
+no 값은 auto increment
+
+insert into reservation(type,id,carnumber,src_account,dst_account,amount,isdone) values('send','ID1111','CAR0012','00-000-00-0','11-111-11-1','50000','F');
+
 ```
