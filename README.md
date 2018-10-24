@@ -20,6 +20,8 @@ $WEBDIR
 + [유저 정보 조회](#유저-정보-조회)  
 + [유저 정보 수정](#유저-정보-수정)
 + [예약 정보 조회](#예약-정보-조회)
++ [예약 정보 추가](#예약-정보-추가)
++ [예약 정보 삭제](#예약-정보-삭제)
 
 ### 유저 정보 조회
 
@@ -104,6 +106,8 @@ JSON Object (수정 된 UserInfo)
 ```
 #### [목록으로](#구현-된-기능)
 
+---
+
 ### 예약 정보 조회
 
 **parameter**
@@ -136,14 +140,152 @@ getReservationInfoTask.execute();
 
 /*
 모바일
-http://35.200.117.1:8080/control.jsp?type=reservation&action=select&from=mobile&userId=ID1234
+http://35.200.117.1:8080/control.jsp?
+type=reservation&action=select&from=mobile&userId=ID1234
 ATM
-http://35.200.117.1:8080/control.jsp?type=reservation&action=select&from=machine&carNumber=CAR0012
+http://35.200.117.1:8080/control.jsp?
+type=reservation&action=select&from=machine&carNumber=CAR0012
 */
 ```
 
 **결과**
 ```
+{
+    "data": [
+        {
+            "no": 1,
+            "amount": "50000",
+            "carnumber": "CAR0012",
+            "src_account": "00-000-00-0",
+            "dst_account": "11-111-11-1",
+            "id": "ID1111",
+            "type": "send",
+            "isdone": "F"
+        },
+       ...
+        {
+            "no": 4,
+            "amount": "10000",
+            "carnumber": "CAR0012",
+            "src_account": "11-111-00-0",
+            "dst_account": "11-111-11-1",
+            "id": "ID1111",
+            "type": "withdraw",
+            "isdone": "F"
+        }
+    ]
+}
+```
+#### [목록으로](#구현-된-기능)
+
+---
+
+### 예약 정보 추가
+
+**parameter**
+
++ type : "reservation"
++ action : "insert"  
++ id | bankingType | carNumber | src_account | dst_account | amount
+
+**예시**
+
+```
+String BASE_URL = http://35.200.117.1:8080/control.jsp?
+
+ContentValues params = new ContentValues();
+        params.put("type",          "reservation");
+        params.put("action",        "insert");
+        params.put("bankingType",   "send"); // or "deposit", "withdraw"
+        params.put("id",            "ID1234");
+        params.put("carNumber",     "CAR0012");
+        params.put("src_account",   "00-000-00-0");
+        params.put("dst_account",   "11-111-11-1");
+        params.put("amount",        "10000");
+
+NetworkTask insertReservationTask = new NetworkTask(BASE_URL, params);
+insertReservationTask.execute();
+```
+
+**결과**
+```
+JSON Object-Array-Object 순 (새로운 예약 업무가 추가 된 ReserveInfo)
+{
+    "data": [
+        {
+            "no": 1,
+            "amount": "50000",
+            "carnumber": "CAR0012",
+            "src_account": "00-000-00-0",
+            "dst_account": "11-111-11-1",
+            "id": "ID1111",
+            "type": "send",
+            "isdone": "F"
+        },
+       ...
+        {
+            "no": 4,
+            "amount": "10000",
+            "carnumber": "CAR0012",
+            "src_account": "11-111-00-0",
+            "dst_account": "11-111-11-1",
+            "id": "ID1111",
+            "type": "withdraw",
+            "isdone": "F"
+        }
+    ]
+}
+```
+
+#### [목록으로](#구현-된-기능)
+
+---
+
+### 예약 정보 삭제
+
+**parameter**
+
++ type : "reservation"
++ action : "update"
++ from : "mobile" or "machine"
++ no : "1"(삭제할 예약 업무의 번호 : key)
++ userId(from이 mobile 일 경우) : "현재 유저 아이디"
++ carNumber(from이 machine 일 경우) : "차량 번호"
+
+**예시**
+
+```
+String BASE_URL = http://35.200.117.1:8080/control.jsp?
+
+ContentValues params = new ContentValues();
+        params.put("type",      "reservation");
+        params.put("action",    "select");
+        params.put("no",        "2");
+        
+        // 모바일 일 경우
+        params.put("from",      "mobile");
+        params.put("userId",    "ID1234");
+
+        // ATM 일 경우
+        params.put("from",      "machine");
+        params.put("carNumber", "CAR0012");
+
+NetworkTask deleteReservationInfoTask = new NetworkTask(BASE_URL, params);
+deleteReservationInfoTask.execute();
+
+/*
+모바일
+http://35.200.117.1:8080/control.jsp?
+type=reservation&action=update&no=1&from=mobile&userId=ID1234
+ATM
+http://35.200.117.1:8080/control.jsp?
+type=reservation&action=update&no=1&from=machine&carNumber=CAR0012
+*/
+```
+
+**결과**
+```
+JSON Object-Array-Object 순 (삭제한 예약업무가 제외 된 ReserveInfo)
 {
     "data": [
         {
