@@ -34,6 +34,5 @@
     conn.close();
     preparedStmt.close();
 
-    String userId = request.getParameter("userId");
-    pageContext.forward("control.jsp?type=reservation&action=select&from=mobile&userid="+userId);
+    pageContext.forward("control.jsp?type=reservation&action=select&from=mobile&userid="+id);
 %>
