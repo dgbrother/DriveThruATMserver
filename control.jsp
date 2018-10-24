@@ -26,6 +26,9 @@ case "user":
 case "reservation":
     // 예약 정보 조회, 예약 정보 추가, 예약 정보 수정
     switch(action) {
+        case "insert":
+            pageContext.forward("test_ReserveInsert.jsp");
+            break;
         case "select":
             pageContext.forward("test_ReserveInfo.jsp");
             break;
