@@ -102,6 +102,75 @@ JSON Object (수정 된 UserInfo)
 }
 ```
 #### [목록으로](#구현-된-기능)
+
+### 예약 정보 조회
+
+**parameter**
+
++ type : "reservation"
++ action : "select"  
++ from : "mobile" or "machine"
++ userId(from이 mobile 일 경우) : "현재 유저 아이디"
++ carNumber(from이 machine 일 경우) : "차량 번호"
+
+**예시**
+
+```
+String BASE_URL = http://35.200.117.1:8080/control.jsp?
+
+ContentValues params = new ContentValues();
+        params.put("type",      "reservation");
+        params.put("action",    "select");
+        
+        // 모바일 일 경우
+        params.put("from",      "mobile");
+        params.put("userId",    "ID1234");
+
+        // ATM 일 경우
+        params.put("from",      "machine");
+        params.put("carNumber", "CAR0012");
+
+NetworkTask getReservationInfoTask = new NetworkTask(BASE_URL, params);
+getReservationInfoTask.execute();
+
+/*
+모바일
+http://35.200.117.1:8080/control.jsp?type=reservation&action=select&from=mobile&userId=ID1234
+ATM
+http://35.200.117.1:8080/control.jsp?type=reservation&action=select&from=machine&carNumber=CAR0012
+*/
+```
+
+**결과**
+```
+{
+    "data": [
+        {
+            "no": 1,
+            "amount": "50000",
+            "carnumber": "CAR0012",
+            "src_account": "00-000-00-0",
+            "dst_account": "11-111-11-1",
+            "id": "ID1111",
+            "type": "send",
+            "isdone": "F"
+        },
+       ...
+        {
+            "no": 4,
+            "amount": "10000",
+            "carnumber": "CAR0012",
+            "src_account": "11-111-00-0",
+            "dst_account": "11-111-11-1",
+            "id": "ID1111",
+            "type": "withdraw",
+            "isdone": "F"
+        }
+    ]
+}
+```
+#### [목록으로](#구현-된-기능)
+
 ---
 
 ### Table Schema
