@@ -33,5 +33,5 @@
     conn.close();
     preparedStmt.close();
 
-    pageContext.forward("control.jsp?type=reservation&action=select&from=mobile&userid="+id);
+    pageContext.forward("control.jsp?type=reservation&action=select&from=mobile&userId="+id);
 %>

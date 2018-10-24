@@ -27,7 +27,7 @@
     switch(from) {
         case "mobile":
             userId = request.getParameter("userId");
-            pageContext.forward("control.jsp?type=reservation&action=select&from=mobile&userid="+userId);
+            pageContext.forward("control.jsp?type=reservation&action=select&from=mobile&userId="+userId);
             break;
         case "machine":
             carNumber = request.getParameter("carNumber");

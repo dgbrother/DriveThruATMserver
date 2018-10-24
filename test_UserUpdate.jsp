@@ -41,5 +41,5 @@ preparedStmt.executeUpdate();
 conn.close();
 preparedStmt.close();
 //  업데이트 후 리스트뷰에 다시 보여주기 위한 Select 쿼리
-pageContext.forward("control.jsp?type=user&action=select&userid="+id);
+pageContext.forward("control.jsp?type=user&action=select&userId="+id);
 %>
