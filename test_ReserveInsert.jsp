@@ -7,7 +7,6 @@
     String myUrl = "jdbc:mysql://localhost/jspdb";
     Connection conn = DriverManager.getConnection(myUrl, "root", "ghqkrth");
 
-    String reservationNo = request.getParameter("no");
     String query = null;
     PreparedStatement preparedStmt = null;
 
