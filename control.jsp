@@ -9,34 +9,32 @@ String action = request.getParameter("action");
 switch(type) {
 
 case "user":
-    // 유저 정보 조회, 유저 정보 수정
     switch(action) {
         case "login":
             pageContext.forward("login.jsp");
             break;
         case "select":
-            pageContext.forward("test_UserInfo.jsp");
+            pageContext.forward("UserInfo.jsp");
             break;
         case "update":
-            pageContext.forward("test_UserUpdate.jsp");
+            pageContext.forward("UserUpdate.jsp");
             break;
     }
     break;
 
 case "reservation":
-    // 예약 정보 조회, 예약 정보 추가, 예약 정보 수정
     switch(action) {
         case "insert":
-            pageContext.forward("test_ReserveInsert.jsp");
+            pageContext.forward("ReserveInsert.jsp");
             break;
         case "select":
-            pageContext.forward("test_ReserveInfo.jsp");
+            pageContext.forward("ReserveInfo.jsp");
             break;
         case "update":
-            pageContext.forward("test_ReserveUpdate.jsp");
+            pageContext.forward("ReserveUpdate.jsp");
             break;
         case "execute":
-            pageContext.forward("test_ReservationExecute.jsp");
+            pageContext.forward("ReservationExecute.jsp");
             break;
     }
     break;
