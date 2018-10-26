@@ -35,6 +35,9 @@ case "reservation":
         case "update":
             pageContext.forward("test_ReserveUpdate.jsp");
             break;
+        case "execute":
+            pageContext.forward("test_ReservationExecute.jsp");
+            break;
     }
     break;
 
