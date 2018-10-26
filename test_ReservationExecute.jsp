@@ -8,7 +8,7 @@ request.setCharacterEncoding("UTF-8");
 Class.forName("com.mysql.jdbc.Driver");
 String myUrl = "jdbc:mysql://localhost/jspdb";
 Connection conn = DriverManager.getConnection(myUrl, "root", "ghqkrth");
-
+out.println("in");
 String query = null;
 PreparedStatement preparedStmt = null;
 String carNumber = request.getParameter("carNumber");
@@ -23,6 +23,7 @@ if(preparedStmt != null){
 
     if(reservationResults.next()) {
         String type = reservationResults.getString("type");
+        out.println("type : "+type);
         switch(type) {
             case "deposit":
 
