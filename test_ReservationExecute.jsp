@@ -35,9 +35,9 @@ if(preparedStmt != null){
             query = "select amount from customer where account=?";
             preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString(1, dstAccount);
-            ResultSet amountResult = preparedStmt.executeQuery();
-            if(amountResult.next()) {
-                String currentAmount = amountResult.getString("amount");
+            ResultSet dstAmountResult = preparedStmt.executeQuery();
+            if(dstAmountResult.next()) {
+                String currentAmount = dstAmountResult.getString("amount");
                 String withdrawAmount = reservationResults.getString("amount");
                 String newAmount = String.valueOf(Integer.parseInt(currentAmount) + Integer.parseInt(withdrawAmount));
                 
@@ -52,9 +52,9 @@ if(preparedStmt != null){
             query = "select amount from customer where carnumber=?";
             preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString(1, carNumber);
-            ResultSet amountResult = preparedStmt.executeQuery();
-            if(amountResult.next()) {
-                String currentAmount = amountResult.getString("amount");
+            ResultSet srcAmountResult = preparedStmt.executeQuery();
+            if(srcAmountResult.next()) {
+                String currentAmount = srcAmountResult.getString("amount");
                 String withdrawAmount = reservationResults.getString("amount");
                 String newAmount = String.valueOf(Integer.parseInt(currentAmount) - Integer.parseInt(withdrawAmount));
                 
