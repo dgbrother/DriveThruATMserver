@@ -44,6 +44,12 @@ if(preparedStmt != null){
                 preparedStmt.setString(1, newAmount);
                 preparedStmt.setString(2, carNumber);
                 preparedStmt.executeUpdate();
+
+                query = "update reservation set isdone=? where carNumber=?";
+                preparedStmt = conn.prepareStatement(query);
+                preparedStmt.setString(1, "T");
+                preparedStmt.setString(2, carNumber);
+                preparedStmt.executeUpdate();
             }
             break;
             
