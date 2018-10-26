@@ -43,7 +43,7 @@ if(preparedStmt != null){
                 preparedStmt.setString(1, newAmount);
                 preparedStmt.setString(2, "T");
                 preparedStmt.setString(3, carNumber);
-                preparedStmt.executeUpdate();
+                out.print(preparedStmt.executeUpdate());
             }
             break;
             
