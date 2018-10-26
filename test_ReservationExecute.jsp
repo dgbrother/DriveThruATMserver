@@ -21,7 +21,7 @@ ResultSet reservationResults = null;
 if(preparedStmt != null){
     reservationResults = preparedStmt.executeQuery();
 
-    if(reservationResults.next()) {
+    while(reservationResults.next()) {
         String type = reservationResults.getString("type");
         out.println("type : "+type);
         switch(type) {
