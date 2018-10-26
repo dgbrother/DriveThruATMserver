@@ -39,7 +39,7 @@ if(preparedStmt != null){
                 String withdrawAmount = reservationResults.getString("amount");
                 String newAmount = String.valueOf(Integer.parseInt(currentAmount) - Integer.parseInt(withdrawAmount));
                 
-                query = "update customer set amount=?, isdone=? where carNumber=?";
+                query = "update customer set amount=? where carNumber=?";
                 preparedStmt = conn.prepareStatement(query);
                 preparedStmt.setString(1, newAmount);
                 preparedStmt.setString(2, "T");
