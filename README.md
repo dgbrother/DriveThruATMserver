@@ -1,6 +1,19 @@
+## 해결해야 될 내용
+
++ DB
+    + 실제 NFC, 차량번호 입력하기
+
++ 유저 정보
+    + 수정할 수 있는 정보 제한
+
++ 예약 업무 실행
+    + 현재 입금 시 처리하는 부분 없음
+    + NFC 정보 입력으로(Rasp 요청) 업무 실행 시작하는 부분 추가
+    + 업무 실행 후 ATM에 종료 알림 추가
+
 ## JSP 파일 위치
 ```
-$WEBDIR
+cd $WEBDIR
 ```
 
 ## JAR 파일 추가 위치
@@ -8,8 +21,17 @@ $WEBDIR
 /usr/share/tomcat8/lib
 ```
 ## 현재 추가된 JAR
+
 + json_simple-1.1.jar
 + gcm.server.jar
+
+## DB 접속 방법
+
+```
+sudo mysql -pghqkrth
+use jspdb
+show tables;
+```
 
 ## 인터페이스
 
@@ -34,7 +56,7 @@ $WEBDIR
 **예시**
 
 ```
-String BASE_URL = "http://35.200.117.1:8080/control.jsp"
+String BASE_URL = "http://35.200.117.1:8080/control.jsp";
 
 ContentValues params = new ContentValues();
         params.put("type",      "user");
@@ -73,7 +95,7 @@ JSON Object
 **예시**
 
 ```
-String BASE_URL = http://35.200.117.1:8080/control.jsp?
+String BASE_URL = "http://35.200.117.1:8080/control.jsp";
 
 ContentValues params = new ContentValues();
         params.put("type",      "user");
@@ -121,7 +143,7 @@ JSON Object (수정 된 UserInfo)
 **예시**
 
 ```
-String BASE_URL = http://35.200.117.1:8080/control.jsp?
+String BASE_URL = "http://35.200.117.1:8080/control.jsp";
 
 ContentValues params = new ContentValues();
         params.put("type",      "reservation");
@@ -191,7 +213,7 @@ type=reservation&action=select&from=machine&carNumber=CAR0012
 **예시**
 
 ```
-String BASE_URL = http://35.200.117.1:8080/control.jsp?
+String BASE_URL = "http://35.200.117.1:8080/control.jsp";
 
 ContentValues params = new ContentValues();
         params.put("type",          "reservation");
@@ -255,11 +277,11 @@ JSON Object-Array-Object 순 (새로운 예약 업무가 추가 된 ReserveInfo)
 **예시**
 
 ```
-String BASE_URL = http://35.200.117.1:8080/control.jsp?
+String BASE_URL = "http://35.200.117.1:8080/control.jsp";
 
 ContentValues params = new ContentValues();
         params.put("type",      "reservation");
-        params.put("action",    "select");
+        params.put("action",    "update");
         params.put("no",        "2");
         
         // 모바일 일 경우
@@ -314,6 +336,20 @@ JSON Object-Array-Object 순 (삭제한 예약업무가 제외 된 ReserveInfo)
 ```
 #### [목록으로](#구현-된-기능)
 
+### 예약 업무 실행
+
+**parameter**
+
++ type : "reservation"
++ action : "execute"
++ carNumber : "차량번호"
+
+**예시**
+
+```
+String BASE_URL = "http://35.200.117.1:8080/control.jsp?type=reservation&action=execute&carNumber=Car1234";
+
+#### [목록으로](#구현-된-기능)
 ---
 
 ### Table Schema
