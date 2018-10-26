@@ -42,8 +42,7 @@ if(preparedStmt != null){
                 query = "update customer set amount=? where carNumber=?";
                 preparedStmt = conn.prepareStatement(query);
                 preparedStmt.setString(1, newAmount);
-                preparedStmt.setString(2, "T");
-                preparedStmt.setString(3, carNumber);
+                preparedStmt.setString(2, carNumber);
                 preparedStmt.executeUpdate();
             }
             break;
