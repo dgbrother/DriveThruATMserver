@@ -21,20 +21,25 @@
     * machine(ATM) 에서 보낸 요청 일 경우 car number를
     * 사용해 예약 정보 select 쿼리 실행
     */
-    if(from.equals("mobile")) {
-        userId = request.getParameter("userId");
-        query = "select * from reservation where id=? and isDone=?";
-        preparedStmt = conn.prepareStatement(query);
-        preparedStmt.setString(1,userId);
-        preparedStmt.setString(2,"F");
+    switch(from) {
+        case "mobile":
+            userId = request.getParameter("userId");
+            query = "select * from reservation where id=? and isDone=?";
+            preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setString(1,userId);
+            preparedStmt.setString(2,"F");
+            break;
+
+        case "machine":
+        case "raspberry":
+            carNumber = request.getParameter("carNumber");
+            query = "select * from reservation where carNumber=? and isDone=?";
+            preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setString(1,carNumber);
+            preparedStmt.setString(2,"F");
+            break;
     }
-    if(from.equals("machine")) {
-        carNumber = request.getParameter("carNumber");
-        query = "select * from reservation where carNumber=? and isDone=?";
-        preparedStmt = conn.prepareStatement(query);
-        preparedStmt.setString(1,carNumber);
-        preparedStmt.setString(2,"F");
-    }
+    
     ResultSet resultSet = preparedStmt.executeQuery();
     
     /*
@@ -76,7 +81,7 @@
             .collapseKey(MESSAGE_ID)
             .delayWhileIdle(SHOW_ON_IDLE)
             .timeToLive(LIVE_TIME)
-            .addData("carNumber", jsonMain.toString())
+            .addData("msgFromServer", jsonMain.toString())
             .build();
             
             query = "select * from token";
