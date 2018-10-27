@@ -30,11 +30,15 @@ ResultSet reservationResults = null;
 if(preparedStmt != null){
     reservationResults = preparedStmt.executeQuery();
 
+    JSONObject jsonMain = new JSONObject();
+    int reservationCount = 0;
+    int successCount = 0;
     while(reservationResults.next()) {
+        reservationCount++;
         String type = reservationResults.getString("type");
         switch(type) {
             case "deposit":
-
+            successCount++;
             break;
             
             case "send":
@@ -75,11 +79,41 @@ if(preparedStmt != null){
                 preparedStmt = conn.prepareStatement(query);
                 preparedStmt.setString(1, "T");
                 preparedStmt.setString(2, carNumber);
-                preparedStmt.executeUpdate();
+                int r = preparedStmt.executeUpdate();
+            
+                if(r > 0)
+                    successCount++;                    
             }
             break;
         }
     }
+    jsonMain.put("total",reservationCount);
+    jsonMain.put("success",successCount);
+    
+    String MESSAGE_ID = String.valueOf(Math.random() % 100 + 1);
+            boolean SHOW_ON_IDLE = false;
+            int LIVE_TIME = 1;
+            int RETRY = 2;
+            String APIKEY = "AIzaSyBb6h-ixtxx_TsZVudOEJTNDxOCE9V_y74";
+            String GCMURL = "https://android.googleapis.com/fc/send";
+
+            Message message = new Message.Builder()
+            .collapseKey(MESSAGE_ID)
+            .delayWhileIdle(SHOW_ON_IDLE)
+            .timeToLive(LIVE_TIME)
+            .addData("msgFromServer", jsonMain.toString())
+            .build();
+            
+            query = "select * from token";
+            preparedStmt = conn.prepareStatement(query);
+            resultSet = preparedStmt.executeQuery();
+
+            ArrayList<String> token = new ArrayList<>();
+            while(resultSet.next())
+                token.add(resultSet.getString("token"));
+
+            Sender sender = new Sender(APIKEY);
+            MulticastResult mcresult = sender.send(message,token,RETRY);
 }
 conn.close();
 preparedStmt.close();
