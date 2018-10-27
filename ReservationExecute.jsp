@@ -17,7 +17,7 @@ preparedStmt = conn.prepareStatement(query);
 preparedStmt.setString(1,nfcId);
 ResultSet nfcResult = preparedStmt.executeQuery();
 
-String carNumber;
+String carNumber = "";
 if(nfcResult.next())
     carNumber = nfcResult.getString("carnumber");
 
