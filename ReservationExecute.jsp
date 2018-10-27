@@ -8,10 +8,18 @@ request.setCharacterEncoding("UTF-8");
 Class.forName("com.mysql.jdbc.Driver");
 String myUrl = "jdbc:mysql://localhost/jspdb";
 Connection conn = DriverManager.getConnection(myUrl, "root", "ghqkrth");
-out.println("in");
 String query = null;
 PreparedStatement preparedStmt = null;
-String carNumber = request.getParameter("carNumber");
+
+String nfcId = request.getParameter("nfcId");
+query = "select carnumber from customer where nfc=?";
+preparedStmt = conn.prepareStatement(query);
+preparedStmt.setString(1,nfcId);
+ResultSet nfcResult = preparedStmt.executeQuery();
+
+String carNumber;
+if(nfcResult.next())
+    carNumber = nfcResult.getString("carnumber");
 
 query = "select * from reservation where carnumber = ? and isdone=?";
 preparedStmt = conn.prepareStatement(query);
@@ -24,7 +32,6 @@ if(preparedStmt != null){
 
     while(reservationResults.next()) {
         String type = reservationResults.getString("type");
-        out.println("type : "+type);
         switch(type) {
             case "deposit":
 
