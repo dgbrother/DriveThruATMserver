@@ -144,7 +144,7 @@ if(preparedStmt != null){
     
     query = "select * from token";
     preparedStmt = conn.prepareStatement(query);
-    resultSet = preparedStmt.executeQuery();
+    ResultSet resultSet = preparedStmt.executeQuery();
 
     ArrayList<String> token = new ArrayList<>();
     while(resultSet.next())
