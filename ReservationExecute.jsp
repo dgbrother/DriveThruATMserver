@@ -101,7 +101,6 @@ if(preparedStmt != null){
                 jsonResultArray.add(jsonResultMsg);
                 break;
             }
-            break;
 
             case "withdraw":
             query = "select amount from customer where carnumber=?";
