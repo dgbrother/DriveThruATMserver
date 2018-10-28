@@ -63,15 +63,15 @@ if(preparedStmt != null){
                 String withdrawAmount = reservationResults.getString("amount");
                 String newAmount = String.valueOf(Integer.parseInt(currentAmount) + Integer.parseInt(withdrawAmount));
                 
-                String srcAccount = reservationResults.getStirng("src_account");
+                String srcAccount = reservationResults.getString("src_account");
                 query = "select amount from customer where account=?";
-                preparedStmt = conn.preparedStmt(query);
+                preparedStmt = conn.prepareStatement(query);
                 preparedStmt.setString(1, srcAccount);
                 
                 ResultSet srcAmountResult = preparedStmt.executeQuery();
                 String srcAmount = "";
                 if(srcAmountResult.next())
-                    srcAmount = srcAmountResult.getStirng("amount");
+                    srcAmount = srcAmountResult.getString("amount");
 
                 int newSrcAmount = Integer.parseInt(srcAmount) - Integer.parseInt(withdrawAmount);
                 if(newSrcAmount < 0) {
