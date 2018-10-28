@@ -43,7 +43,6 @@ if(preparedStmt != null){
         JSONObject jsonResultMsg = new JSONObject();
         String type = reservationResults.getString("type");
         String no = reservationResults.getString("no");
-        PreparedStatement preparedStmtSend = null;
         switch(type) {
             case "deposit":
             jsonResultMsg.put("no", no);
@@ -64,10 +63,36 @@ if(preparedStmt != null){
                 String withdrawAmount = reservationResults.getString("amount");
                 String newAmount = String.valueOf(Integer.parseInt(currentAmount) + Integer.parseInt(withdrawAmount));
                 
+                String srcAccount = reservationResults.getStirng("src_account");
+                query = "select amount from customer where account=?";
+                preparedStmt = conn.preparedStmt(query);
+                preparedStmt.setString(1, srcAccount);
+                
+                ResultSet srcAmountResult = preparedStmt.executeQuery();
+                String srcAmount = "";
+                if(srcAmountResult.next())
+                    srcAmount = srcAmountResult.getStirng("amount");
+
+                int newSrcAmount = Integer.parseInt(srcAmount) - Integer.parseInt(withdrawAmount);
+                if(newSrcAmount < 0) {
+                    jsonResultMsg.put("no", no);
+                    jsonResultMsg.put("result", "false");
+                    jsonResultMsg.put("msg", "잔액이 부족합니다.");
+                    jsonResultArray.add(jsonResultMsg);
+                    break;
+                }
+
                 query = "update customer set amount=? where account=?";
-                preparedStmtSend = conn.prepareStatement(query);
-                preparedStmtSend.setString(1, newAmount);
-                preparedStmtSend.setString(2, dstAccount);
+                preparedStmt = conn.prepareStatement(query);
+                preparedStmt.setString(1, newAmount);
+                preparedStmt.setString(2, dstAccount);
+                preparedStmt.executeUpdate();
+                
+                jsonResultMsg.put("no", no);
+                jsonResultMsg.put("result", "true");
+                jsonResultMsg.put("msg", "");
+                jsonResultArray.add(jsonResultMsg);
+
             }
             else {
                 jsonResultMsg.put("no", no);
@@ -76,6 +101,7 @@ if(preparedStmt != null){
                 jsonResultArray.add(jsonResultMsg);
                 break;
             }
+            break;
 
             case "withdraw":
             query = "select amount from customer where carnumber=?";
@@ -93,9 +119,6 @@ if(preparedStmt != null){
                     jsonResultMsg.put("msg", "잔액이 부족합니다.");
                     jsonResultArray.add(jsonResultMsg);
                     break;
-                }
-                else {
-                    preparedStmtSend.executeUpdate();
                 }
 
                 query = "update customer set amount=? where carNumber=?";
@@ -134,6 +157,7 @@ if(preparedStmt != null){
 
     JSONObject jsonMain = new JSONObject();
     jsonMain.put("data", jsonResultArray);
+    out.println(jsonMain.toString());
 
     Message message = new Message.Builder()
     .collapseKey(MESSAGE_ID)
