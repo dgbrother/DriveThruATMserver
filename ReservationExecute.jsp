@@ -11,6 +11,10 @@ Connection conn = DriverManager.getConnection(myUrl, "root", "ghqkrth");
 String query = null;
 PreparedStatement preparedStmt = null;
 
+/*********************************************************
+* NFC 카드 정보를 Parameter로 입력받아서
+* 해당 NFC 정보와 일치하는 차량번호를 DB에서 가져옴
+**********************************************************/
 String nfcId = request.getParameter("nfcId");
 query = "select carnumber from customer where nfc=?";
 preparedStmt = conn.prepareStatement(query);
@@ -21,6 +25,10 @@ String carNumber = "";
 if(nfcResult.next())
     carNumber = nfcResult.getString("carnumber");
 
+/*********************************************************
+* 차량번호로 예약된 업무 목록을 DB에서 가져옴
+* 이미 실행 된 업무는 가져오지 않음 (isdone = 'F' 만 가져옴)
+**********************************************************/
 query = "select * from reservation where carnumber = ? and isdone=?";
 preparedStmt = conn.prepareStatement(query);
 preparedStmt.setString(1,carNumber);
@@ -29,16 +37,19 @@ preparedStmt.setString(2, "F");
 ResultSet reservationResults = null;
 if(preparedStmt != null){
     reservationResults = preparedStmt.executeQuery();
-
-    JSONObject jsonMain = new JSONObject();
-    int reservationCount = 0;
-    int successCount = 0;
+   
+   JSONArray jsonResultArray = new JSONArray();
     while(reservationResults.next()) {
-        reservationCount++;
+        JSONObject jsonResultMsg = new JSONObject();
         String type = reservationResults.getString("type");
+        String no = reservationResults.getString("no");
+        PreparedStatement preparedStmtSend = null;
         switch(type) {
             case "deposit":
-            successCount++;
+            jsonResultMsg.put("no", no);
+            jsonResultMsg.put("result", "true");
+            jsonResultMsg.put("msg", "");
+            jsonResultArray.add(jsonResultMsg);
             break;
             
             case "send":
@@ -46,6 +57,7 @@ if(preparedStmt != null){
             query = "select amount from customer where account=?";
             preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString(1, dstAccount);
+           
             ResultSet dstAmountResult = preparedStmt.executeQuery();
             if(dstAmountResult.next()) {
                 String currentAmount = dstAmountResult.getString("amount");
@@ -53,10 +65,16 @@ if(preparedStmt != null){
                 String newAmount = String.valueOf(Integer.parseInt(currentAmount) + Integer.parseInt(withdrawAmount));
                 
                 query = "update customer set amount=? where account=?";
-                preparedStmt = conn.prepareStatement(query);
-                preparedStmt.setString(1, newAmount);
-                preparedStmt.setString(2, dstAccount);
-                preparedStmt.executeUpdate();
+                preparedStmtSend = conn.prepareStatement(query);
+                preparedStmtSend.setString(1, newAmount);
+                preparedStmtSend.setString(2, dstAccount);
+            }
+            else {
+                jsonResultMsg.put("no", no);
+                jsonResultMsg.put("result", "false");
+                jsonResultMsg.put("msg", "송금 계좌가 존재하지 않습니다.");
+                jsonResultArray.add(jsonResultMsg);
+                break;
             }
 
             case "withdraw":
@@ -69,6 +87,17 @@ if(preparedStmt != null){
                 String withdrawAmount = reservationResults.getString("amount");
                 String newAmount = String.valueOf(Integer.parseInt(currentAmount) - Integer.parseInt(withdrawAmount));
                 
+                if(Integer.parseInt(newAmount) < 0) {
+                    jsonResultMsg.put("no", no);
+                    jsonResultMsg.put("result", "false");
+                    jsonResultMsg.put("msg", "잔액이 부족합니다.");
+                    jsonResultArray.add(jsonResultMsg);
+                    break;
+                }
+                else {
+                    preparedStmtSend.executeUpdate();
+                }
+
                 query = "update customer set amount=? where carNumber=?";
                 preparedStmt = conn.prepareStatement(query);
                 preparedStmt.setString(1, newAmount);
@@ -79,16 +108,22 @@ if(preparedStmt != null){
                 preparedStmt = conn.prepareStatement(query);
                 preparedStmt.setString(1, "T");
                 preparedStmt.setString(2, carNumber);
-                int r = preparedStmt.executeUpdate();
-            
-                if(r > 0)
-                    successCount++;                    
+                preparedStmt.executeUpdate();                  
+                
+                jsonResultMsg.put("no", no);
+                jsonResultMsg.put("result", "true");
+                jsonResultMsg.put("msg", "");
+                jsonResultArray.add(jsonResultMsg);
+            }
+            else {
+                jsonResultMsg.put("no", no);
+                jsonResultMsg.put("result", "false");
+                jsonResultMsg.put("msg", "등록되지 않은 차량번호 입니다.");
+                jsonResultArray.add(jsonResultMsg);
             }
             break;
         }
     }
-    jsonMain.put("total",reservationCount);
-    jsonMain.put("success",successCount);
     
     String MESSAGE_ID = String.valueOf(Math.random() % 100 + 1);
             boolean SHOW_ON_IDLE = false;
@@ -96,6 +131,9 @@ if(preparedStmt != null){
             int RETRY = 2;
             String APIKEY = "AIzaSyBb6h-ixtxx_TsZVudOEJTNDxOCE9V_y74";
             String GCMURL = "https://android.googleapis.com/fc/send";
+
+            JSONObject jsonMain = new JSONObject();
+            jsonMain.put("data", jsonResultArray);
 
             Message message = new Message.Builder()
             .collapseKey(MESSAGE_ID)
