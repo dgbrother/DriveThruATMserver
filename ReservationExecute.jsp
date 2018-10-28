@@ -87,12 +87,6 @@ if(preparedStmt != null){
                 preparedStmt.setString(1, newAmount);
                 preparedStmt.setString(2, dstAccount);
                 preparedStmt.executeUpdate();
-                
-                jsonResultMsg.put("no", no);
-                jsonResultMsg.put("result", "true");
-                jsonResultMsg.put("msg", "");
-                jsonResultArray.add(jsonResultMsg);
-
             }
             else {
                 jsonResultMsg.put("no", no);
