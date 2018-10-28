@@ -1,4 +1,4 @@
-<%@ page import="java.sql.*" import="org.json.simple.*" import="java.util.*"
+<%@ page import="java.sql.*" import="org.json.simple.*" import="java.util.*" import="com.google.android.gcm.server.*"
     contentType="text/html;charset=UTF-8" %>
 <% 
 request.setCharacterEncoding("UTF-8");
@@ -126,32 +126,32 @@ if(preparedStmt != null){
     }
     
     String MESSAGE_ID = String.valueOf(Math.random() % 100 + 1);
-            boolean SHOW_ON_IDLE = false;
-            int LIVE_TIME = 1;
-            int RETRY = 2;
-            String APIKEY = "AIzaSyBb6h-ixtxx_TsZVudOEJTNDxOCE9V_y74";
-            String GCMURL = "https://android.googleapis.com/fc/send";
+    boolean SHOW_ON_IDLE = false;
+    int LIVE_TIME = 1;
+    int RETRY = 2;
+    String APIKEY = "AIzaSyBb6h-ixtxx_TsZVudOEJTNDxOCE9V_y74";
+    String GCMURL = "https://android.googleapis.com/fc/send";
 
-            JSONObject jsonMain = new JSONObject();
-            jsonMain.put("data", jsonResultArray);
+    JSONObject jsonMain = new JSONObject();
+    jsonMain.put("data", jsonResultArray);
 
-            Message message = new Message.Builder()
-            .collapseKey(MESSAGE_ID)
-            .delayWhileIdle(SHOW_ON_IDLE)
-            .timeToLive(LIVE_TIME)
-            .addData("msgFromServer", jsonMain.toString())
-            .build();
-            
-            query = "select * from token";
-            preparedStmt = conn.prepareStatement(query);
-            resultSet = preparedStmt.executeQuery();
+    Message message = new Message.Builder()
+    .collapseKey(MESSAGE_ID)
+    .delayWhileIdle(SHOW_ON_IDLE)
+    .timeToLive(LIVE_TIME)
+    .addData("msgFromServer", jsonMain.toString())
+    .build();
+    
+    query = "select * from token";
+    preparedStmt = conn.prepareStatement(query);
+    resultSet = preparedStmt.executeQuery();
 
-            ArrayList<String> token = new ArrayList<>();
-            while(resultSet.next())
-                token.add(resultSet.getString("token"));
+    ArrayList<String> token = new ArrayList<>();
+    while(resultSet.next())
+        token.add(resultSet.getString("token"));
 
-            Sender sender = new Sender(APIKEY);
-            MulticastResult mcresult = sender.send(message,token,RETRY);
+    Sender sender = new Sender(APIKEY);
+    MulticastResult mcresult = sender.send(message,token,RETRY);
 }
 conn.close();
 preparedStmt.close();
