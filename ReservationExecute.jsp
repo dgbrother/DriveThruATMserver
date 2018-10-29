@@ -47,7 +47,7 @@ if(preparedStmt != null){
             case "deposit":
             jsonResultMsg.put("no", no);
             jsonResultMsg.put("result", "true");
-            jsonResultMsg.put("msg", "");
+            jsonResultMsg.put("msg", "완료되었습니다.");
             jsonResultArray.add(jsonResultMsg);
             break;
             
@@ -128,7 +128,7 @@ if(preparedStmt != null){
                 
                 jsonResultMsg.put("no", no);
                 jsonResultMsg.put("result", "true");
-                jsonResultMsg.put("msg", "");
+                jsonResultMsg.put("msg", "완료되었습니다.");
                 jsonResultArray.add(jsonResultMsg);
             }
             else {
