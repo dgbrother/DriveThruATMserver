@@ -149,7 +149,7 @@ if(preparedStmt != null){
     String GCMURL = "https://android.googleapis.com/fc/send";
 
     JSONObject jsonMain = new JSONObject();
-    jsonMain.put("data", jsonResultArray);
+    jsonMain.put("result", jsonResultArray);
     out.println(jsonMain.toString());
 
     Message message = new Message.Builder()
