@@ -33,12 +33,13 @@ query = "select * from reservation where carnumber = ? and isdone=?";
 preparedStmt = conn.prepareStatement(query);
 preparedStmt.setString(1,carNumber);
 preparedStmt.setString(2, "F");
- 
+
+JSONArray jsonResultArray;
 ResultSet reservationResults = null;
 if(preparedStmt != null){
     reservationResults = preparedStmt.executeQuery();
-   
-   JSONArray jsonResultArray = new JSONArray();
+    
+    jsonResultArray = new JSONArray();
     while(reservationResults.next()) {
         JSONObject jsonResultMsg = new JSONObject();
         String type = reservationResults.getString("type");
@@ -148,9 +149,16 @@ if(preparedStmt != null){
     String APIKEY = "AIzaSyBb6h-ixtxx_TsZVudOEJTNDxOCE9V_y74";
     String GCMURL = "https://android.googleapis.com/fc/send";
 
+
     JSONObject jsonMain = new JSONObject();
-    jsonMain.put("result", jsonResultArray);
-    out.println(jsonMain.toString());
+    if(jsonResultArray.length() > 0) {
+        jsonMain.put("result", jsonResultArray);
+        out.println(jsonMain.toString());
+    }
+    else {
+        jsonMain.put("result", "false");
+        out.println("NFC not match");
+    }
 
     Message message = new Message.Builder()
     .collapseKey(MESSAGE_ID)
