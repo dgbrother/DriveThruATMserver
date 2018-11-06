@@ -31,7 +31,6 @@
             break;
 
         case "machine":
-        case "raspberry":
             carNumber = request.getParameter("carNumber");
             query = "select * from reservation where carNumber=? and isDone=?";
             preparedStmt = conn.prepareStatement(query);
@@ -41,7 +40,6 @@
     }
     
     ResultSet resultSet = preparedStmt.executeQuery();
-    
     /*
     * 쿼리 결과를 JSON 형식으로 저장
     */
@@ -59,44 +57,8 @@
 
     JSONObject jsonMain = new JSONObject();
     jsonMain.put("data", jsonArray);
+    out.print(jsonMain);
 
-    /*
-    * mobile(모바일 앱), machine(ATM) 일 경우 JSON 결과 전송
-    * raspberry(차량 접근) 일 경우 FCM으로 JSON 결과 전송
-    */
-    switch(from) {
-        case "mobile":
-        case "machine":
-            out.print(jsonMain);
-            break;
-        case "raspberry":
-            String MESSAGE_ID = String.valueOf(Math.random() % 100 + 1);
-            boolean SHOW_ON_IDLE = false;
-            int LIVE_TIME = 1;
-            int RETRY = 2;
-            String APIKEY = "AIzaSyBb6h-ixtxx_TsZVudOEJTNDxOCE9V_y74";
-            String GCMURL = "https://android.googleapis.com/fc/send";
-
-            Message message = new Message.Builder()
-            .collapseKey(MESSAGE_ID)
-            .delayWhileIdle(SHOW_ON_IDLE)
-            .timeToLive(LIVE_TIME)
-            .addData("msgFromServer", jsonMain.toString())
-            .build();
-            
-            query = "select * from token";
-            preparedStmt = conn.prepareStatement(query);
-            resultSet = preparedStmt.executeQuery();
-
-            ArrayList<String> token = new ArrayList<>();
-            while(resultSet.next())
-                token.add(resultSet.getString("token"));
-
-            Sender sender = new Sender(APIKEY);
-            MulticastResult mcresult = sender.send(message,token,RETRY);
-            // mcresult : send 결과
-            break;
-    }
     conn.close();
     preparedStmt.close();
 %>
