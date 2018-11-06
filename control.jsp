@@ -43,8 +43,8 @@ case "reservation":
 case "notification":
     switch(action) {
         case "carEntry":
-        
-        break;
+            pageContext.forward("CarEnterence.jsp");
+            break;
         case "nfcTag":
         break;
     }
