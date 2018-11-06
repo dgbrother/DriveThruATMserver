@@ -34,150 +34,115 @@ preparedStmt = conn.prepareStatement(query);
 preparedStmt.setString(1,carNumber);
 preparedStmt.setString(2, "F");
 
-JSONArray jsonResultArray;
 ResultSet reservationResults = null;
-if(preparedStmt != null){
-    reservationResults = preparedStmt.executeQuery();
-    
-    jsonResultArray = new JSONArray();
-    while(reservationResults.next()) {
-        JSONObject jsonResultMsg = new JSONObject();
-        String type = reservationResults.getString("type");
-        String no = reservationResults.getString("no");
-        switch(type) {
-            case "deposit":
-            jsonResultMsg.put("no", no);
-            jsonResultMsg.put("result", "true");
-            jsonResultMsg.put("msg", "완료되었습니다.");
-            jsonResultArray.add(jsonResultMsg);
-            break;
+reservationResults = preparedStmt.executeQuery();
+
+JSONArray jsonResultArray = new JSONArray();
+while(reservationResults.next()) {
+    JSONObject jsonResultMsg = new JSONObject();
+    String type = reservationResults.getString("type");
+    String no = reservationResults.getString("no");
+    switch(type) {
+        case "deposit":
+        jsonResultMsg.put("no", no);
+        jsonResultMsg.put("result", "true");
+        jsonResultMsg.put("msg", "완료되었습니다.");
+        jsonResultArray.add(jsonResultMsg);
+        break;
+        
+        case "send":
+        String dstAccount = reservationResults.getString("dst_account");
+        query = "select amount from customer where account=?";
+        preparedStmt = conn.prepareStatement(query);
+        preparedStmt.setString(1, dstAccount);
+        
+        ResultSet dstAmountResult = preparedStmt.executeQuery();
+        if(dstAmountResult.next()) {
+            String currentAmount = dstAmountResult.getString("amount");
+            String withdrawAmount = reservationResults.getString("amount");
+            String newAmount = String.valueOf(Integer.parseInt(currentAmount) + Integer.parseInt(withdrawAmount));
             
-            case "send":
-            String dstAccount = reservationResults.getString("dst_account");
+            String srcAccount = reservationResults.getString("src_account");
             query = "select amount from customer where account=?";
             preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setString(1, dstAccount);
-           
-            ResultSet dstAmountResult = preparedStmt.executeQuery();
-            if(dstAmountResult.next()) {
-                String currentAmount = dstAmountResult.getString("amount");
-                String withdrawAmount = reservationResults.getString("amount");
-                String newAmount = String.valueOf(Integer.parseInt(currentAmount) + Integer.parseInt(withdrawAmount));
-                
-                String srcAccount = reservationResults.getString("src_account");
-                query = "select amount from customer where account=?";
-                preparedStmt = conn.prepareStatement(query);
-                preparedStmt.setString(1, srcAccount);
-                
-                ResultSet srcAmountResult = preparedStmt.executeQuery();
-                String srcAmount = "";
-                if(srcAmountResult.next())
-                    srcAmount = srcAmountResult.getString("amount");
+            preparedStmt.setString(1, srcAccount);
+            
+            ResultSet srcAmountResult = preparedStmt.executeQuery();
+            String srcAmount = "";
+            if(srcAmountResult.next())
+                srcAmount = srcAmountResult.getString("amount");
 
-                int newSrcAmount = Integer.parseInt(srcAmount) - Integer.parseInt(withdrawAmount);
-                if(newSrcAmount < 0) {
-                    jsonResultMsg.put("no", no);
-                    jsonResultMsg.put("result", "false");
-                    jsonResultMsg.put("msg", "잔액이 부족합니다.");
-                    jsonResultArray.add(jsonResultMsg);
-                    break;
-                }
-
-                query = "update customer set amount=? where account=?";
-                preparedStmt = conn.prepareStatement(query);
-                preparedStmt.setString(1, newAmount);
-                preparedStmt.setString(2, dstAccount);
-                preparedStmt.executeUpdate();
-            }
-            else {
+            int newSrcAmount = Integer.parseInt(srcAmount) - Integer.parseInt(withdrawAmount);
+            if(newSrcAmount < 0) {
                 jsonResultMsg.put("no", no);
                 jsonResultMsg.put("result", "false");
-                jsonResultMsg.put("msg", "송금 계좌가 존재하지 않습니다.");
+                jsonResultMsg.put("msg", "잔액이 부족합니다.");
                 jsonResultArray.add(jsonResultMsg);
                 break;
             }
 
-            case "withdraw":
-            query = "select amount from customer where carnumber=?";
+            query = "update customer set amount=? where account=?";
             preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setString(1, carNumber);
-            ResultSet srcAmountResult = preparedStmt.executeQuery();
-            if(srcAmountResult.next()) {
-                String currentAmount = srcAmountResult.getString("amount");
-                String withdrawAmount = reservationResults.getString("amount");
-                String newAmount = String.valueOf(Integer.parseInt(currentAmount) - Integer.parseInt(withdrawAmount));
-                
-                if(Integer.parseInt(newAmount) < 0) {
-                    jsonResultMsg.put("no", no);
-                    jsonResultMsg.put("result", "false");
-                    jsonResultMsg.put("msg", "잔액이 부족합니다.");
-                    jsonResultArray.add(jsonResultMsg);
-                    break;
-                }
-
-                query = "update customer set amount=? where carNumber=?";
-                preparedStmt = conn.prepareStatement(query);
-                preparedStmt.setString(1, newAmount);
-                preparedStmt.setString(2, carNumber);
-                preparedStmt.executeUpdate();
-
-                query = "update reservation set isdone=? where carNumber=?";
-                preparedStmt = conn.prepareStatement(query);
-                preparedStmt.setString(1, "T");
-                preparedStmt.setString(2, carNumber);
-                preparedStmt.executeUpdate();                  
-                
-                jsonResultMsg.put("no", no);
-                jsonResultMsg.put("result", "true");
-                jsonResultMsg.put("msg", "완료되었습니다.");
-                jsonResultArray.add(jsonResultMsg);
-            }
-            else {
-                jsonResultMsg.put("no", no);
-                jsonResultMsg.put("result", "false");
-                jsonResultMsg.put("msg", "등록되지 않은 차량번호 입니다.");
-                jsonResultArray.add(jsonResultMsg);
-            }
+            preparedStmt.setString(1, newAmount);
+            preparedStmt.setString(2, dstAccount);
+            preparedStmt.executeUpdate();
+        }
+        else {
+            jsonResultMsg.put("no", no);
+            jsonResultMsg.put("result", "false");
+            jsonResultMsg.put("msg", "송금 계좌가 존재하지 않습니다.");
+            jsonResultArray.add(jsonResultMsg);
             break;
         }
+
+        case "withdraw":
+        query = "select amount from customer where carnumber=?";
+        preparedStmt = conn.prepareStatement(query);
+        preparedStmt.setString(1, carNumber);
+        ResultSet srcAmountResult = preparedStmt.executeQuery();
+        if(srcAmountResult.next()) {
+            String currentAmount = srcAmountResult.getString("amount");
+            String withdrawAmount = reservationResults.getString("amount");
+            String newAmount = String.valueOf(Integer.parseInt(currentAmount) - Integer.parseInt(withdrawAmount));
+            
+            if(Integer.parseInt(newAmount) < 0) {
+                jsonResultMsg.put("no", no);
+                jsonResultMsg.put("result", "false");
+                jsonResultMsg.put("msg", "잔액이 부족합니다.");
+                jsonResultArray.add(jsonResultMsg);
+                break;
+            }
+
+            query = "update customer set amount=? where carNumber=?";
+            preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setString(1, newAmount);
+            preparedStmt.setString(2, carNumber);
+            preparedStmt.executeUpdate();
+
+            query = "update reservation set isdone=? where carNumber=?";
+            preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setString(1, "T");
+            preparedStmt.setString(2, carNumber);
+            preparedStmt.executeUpdate();                  
+            
+            jsonResultMsg.put("no", no);
+            jsonResultMsg.put("result", "true");
+            jsonResultMsg.put("msg", "완료되었습니다.");
+            jsonResultArray.add(jsonResultMsg);
+        }
+        else {
+            jsonResultMsg.put("no", no);
+            jsonResultMsg.put("result", "false");
+            jsonResultMsg.put("msg", "등록되지 않은 차량번호 입니다.");
+            jsonResultArray.add(jsonResultMsg);
+        }
+        break;
     }
-    
-    String MESSAGE_ID = String.valueOf(Math.random() % 100 + 1);
-    boolean SHOW_ON_IDLE = false;
-    int LIVE_TIME = 1;
-    int RETRY = 2;
-    String APIKEY = "AIzaSyBb6h-ixtxx_TsZVudOEJTNDxOCE9V_y74";
-    String GCMURL = "https://android.googleapis.com/fc/send";
-
-
-    JSONObject jsonMain = new JSONObject();
-    if(jsonResultArray.length() > 0) {
-        jsonMain.put("result", jsonResultArray);
-        out.println(jsonMain.toString());
-    }
-    else {
-        jsonMain.put("result", "false");
-        out.println("NFC not match");
-    }
-
-    Message message = new Message.Builder()
-    .collapseKey(MESSAGE_ID)
-    .delayWhileIdle(SHOW_ON_IDLE)
-    .timeToLive(LIVE_TIME)
-    .addData("msgFromServer", jsonMain.toString())
-    .build();
-    
-    query = "select * from token";
-    preparedStmt = conn.prepareStatement(query);
-    ResultSet resultSet = preparedStmt.executeQuery();
-
-    ArrayList<String> token = new ArrayList<>();
-    while(resultSet.next())
-        token.add(resultSet.getString("token"));
-
-    Sender sender = new Sender(APIKEY);
-    MulticastResult mcresult = sender.send(message,token,RETRY);
 }
+JSONObject jsonMain = new JSONObject();
+jsonMain.put("data", jsonResultArray);
+out.print(jsonMain);
+
 conn.close();
 preparedStmt.close();
 %>
