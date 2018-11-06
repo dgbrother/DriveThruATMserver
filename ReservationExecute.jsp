@@ -140,7 +140,7 @@ while(reservationResults.next()) {
     }
 }
 JSONObject jsonMain = new JSONObject();
-jsonMain.put("data", jsonResultArray);
+jsonMain.put("result", jsonResultArray);
 out.print(jsonMain);
 
 conn.close();
