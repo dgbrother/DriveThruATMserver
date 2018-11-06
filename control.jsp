@@ -46,7 +46,8 @@ case "notification":
             pageContext.forward("CarEnterence.jsp");
             break;
         case "nfcTag":
-        break;
+            pageContext.forward("NFCTag.jsp");
+            break;
     }
     break;
 }
