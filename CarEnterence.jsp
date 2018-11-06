@@ -57,6 +57,7 @@ if(mcresult != null) {
     for(Result mr : resultList)
         out.println(mr.getErrorCodeName());
 }
+out.println("MSG from server : "+msgFromServer);
 conn.close();
 preparedStmt.close();
 %>
