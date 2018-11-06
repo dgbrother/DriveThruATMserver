@@ -14,14 +14,19 @@ PreparedStatement preparedStmt = conn.prepareStatement(query);
 preparedStmt.setString(1,carNumber);
 ResultSet resultSet = preparedStmt.executeQuery();
 
-String msgFromServer = "false";
+String msgFromServer = "";
+JSONObject jsonObject = new JSONObject();
 if(resultSet.next()) {
     String nfcId = resultSet.getString("nfc");
-    JSONObject jsonObject = new JSONObject();
+    jsonObject.put("action", "carEntry");
     jsonObject.put("carNumber", carNumber);
     jsonObject.put("nfcId", nfcId);
-    msgFromServer = jsonObject.toString();
 }
+else {
+    jsonObject.put("action", "error");
+    jsonObject.put("errorType", "NOT_FOUND_CARNUMBER");
+}
+msgFromServer = jsonObject.toString();
     
 String MESSAGE_ID = String.valueOf(Math.random() % 100 + 1);
 boolean SHOW_ON_IDLE = false;
@@ -34,7 +39,7 @@ Message message = new Message.Builder()
 .collapseKey(MESSAGE_ID)
 .delayWhileIdle(SHOW_ON_IDLE)
 .timeToLive(LIVE_TIME)
-.addData("carEntry", msgFromServer)
+.addData("msgFromServer", msgFromServer)
 .build();
 
 query = "select * from token";
