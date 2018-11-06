@@ -6,7 +6,7 @@
     Class.forName("com.mysql.jdbc.Driver");
     String myUrl = "jdbc:mysql://localhost/jspdb";
     Connection conn = DriverManager.getConnection(myUrl, "root", "ghqkrth");
-
+    
     String query = null;
     PreparedStatement preparedStmt = null;
 

@@ -19,6 +19,7 @@ case "user":
         case "update":
             pageContext.forward("UserUpdate.jsp");
             break;
+        default:
     }
     break;
 
@@ -39,7 +40,14 @@ case "reservation":
     }
     break;
 
-case "arrived":
+case "notification":
+    switch(action) {
+        case "carEntry":
+        
+        break;
+        case "nfcTag":
+        break;
+    }
     break;
 }
 %>
