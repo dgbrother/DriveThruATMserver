@@ -25,7 +25,6 @@ preparedStmt = conn.prepareStatement(query);
 preparedStmt.setString(1,carNumber);
 resultSet = preparedStmt.executeQuery();
 
-String msgFromServer = "";
 if(resultSet.next()) {
     String nfcId = resultSet.getString("nfc");
     jsonObject.put("action", "carEntry");
@@ -37,7 +36,7 @@ else {
     jsonObject.put("errorType", "NOT_FOUND_CARNUMBER_OR_NFCID");
 }
 }
-msgFromServer = jsonObject.toString();
+String msgFromServer = jsonObject.toString();
     
 String MESSAGE_ID = String.valueOf(Math.random() % 100 + 1);
 boolean SHOW_ON_IDLE = false;
