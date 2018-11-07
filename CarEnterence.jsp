@@ -9,32 +9,32 @@ Class.forName("com.mysql.jdbc.Driver");
 String myUrl = "jdbc:mysql://localhost/jspdb";
 Connection conn = DriverManager.getConnection(myUrl, "root", "ghqkrth");
 
-String query = "select no from reservation where carnumber = ?";
+String query = "select nfc from customer where carnumber = ?";
 PreparedStatement preparedStmt = conn.prepareStatement(query);
 preparedStmt.setString(1,carNumber);
 ResultSet resultSet = preparedStmt.executeQuery();
 
 JSONObject jsonObject = new JSONObject();
-if(!resultSet.next()) {
-    jsonObject.put("action", "error");
-    jsonObject.put("errorType", "NOT_FOUND_RESERVATION");
-}
-else {
-query = "select nfc from customer where carnumber = ?";
-preparedStmt = conn.prepareStatement(query);
-preparedStmt.setString(1,carNumber);
-resultSet = preparedStmt.executeQuery();
-
 if(resultSet.next()) {
-    String nfcId = resultSet.getString("nfc");
-    jsonObject.put("action", "carEntry");
-    jsonObject.put("carNumber", carNumber);
-    jsonObject.put("nfcId", nfcId);
+    query = "select no from reservation where carnumber = ?";
+    preparedStmt = conn.prepareStatement(query);
+    preparedStmt.setString(1,carNumber);
+    ResultSet rsvResultSet = preparedStmt.executeQuery();
+
+    if(rsvResultSet.next()) {
+        String nfcId = resultSet.getString("nfc");
+        jsonObject.put("action", "carEntry");
+        jsonObject.put("carNumber", carNumber);
+        jsonObject.put("nfcId", nfcId);
+    }
+    else {
+        jsonObject.put("action", "error");
+        jsonObject.put("errorType", "NOT_FOUND_RESERVATION");
+    }
 }
 else {
     jsonObject.put("action", "error");
     jsonObject.put("errorType", "NOT_FOUND_CARNUMBER_OR_NFCID");
-}
 }
 String msgFromServer = jsonObject.toString();
     
