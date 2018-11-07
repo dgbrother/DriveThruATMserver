@@ -14,18 +14,18 @@ PreparedStatement preparedStmt = conn.prepareStatement(query);
 preparedStmt.setString(1,carNumber);
 ResultSet resultSet = preparedStmt.executeQuery();
 
+JSONObject jsonObject = new JSONObject();
 if(!resultSet.next()) {
     jsonObject.put("action", "error");
     jsonObject.put("errorType", "NOT_FOUND_RESERVATION");
 }
-
+else {
 query = "select nfc from customer where carnumber = ?";
 preparedStmt = conn.prepareStatement(query);
 preparedStmt.setString(1,carNumber);
 resultSet = preparedStmt.executeQuery();
 
 String msgFromServer = "";
-JSONObject jsonObject = new JSONObject();
 if(resultSet.next()) {
     String nfcId = resultSet.getString("nfc");
     jsonObject.put("action", "carEntry");
@@ -35,6 +35,7 @@ if(resultSet.next()) {
 else {
     jsonObject.put("action", "error");
     jsonObject.put("errorType", "NOT_FOUND_CARNUMBER_OR_NFCID");
+}
 }
 msgFromServer = jsonObject.toString();
     
