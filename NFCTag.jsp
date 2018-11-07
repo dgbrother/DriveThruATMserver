@@ -2,14 +2,13 @@
     contentType="text/html;charset=UTF-8" %>
 <% 
 request.setCharacterEncoding("UTF-8");
-
 String nfcId = request.getParameter("nfcId");
 
 Class.forName("com.mysql.jdbc.Driver");
 String myUrl = "jdbc:mysql://localhost/jspdb";
 Connection conn = DriverManager.getConnection(myUrl, "root", "ghqkrth");
 
-String query = "select id from customer where nfc = ?";
+String query = "select carnumber from customer where nfc = ?";
 PreparedStatement preparedStmt = conn.prepareStatement(query);
 preparedStmt.setString(1,nfcId);
 ResultSet resultSet = preparedStmt.executeQuery();
@@ -17,8 +16,10 @@ ResultSet resultSet = preparedStmt.executeQuery();
 String msgFromServer = "";
 JSONObject jsonObject = new JSONObject();
 if(resultSet.next()) {
+    String carNumber = resultSet.getString("carnumber");
     jsonObject.put("action", "nfcTag");
     jsonObject.put("nfcId", nfcId);
+    jsonObject.put("carNumber", carNumber);
 }
 else {
     jsonObject.put("action", "error");
