@@ -34,16 +34,20 @@ public class DBManager {
 		}
 	}
 	
-	public ResultSet executeQuery(String query) {
+	public ArrayList<String> executeQuery(String query) {
 		connect();
-		ResultSet resultSet = null;
+		ArrayList<String> tokenList = null;
 		try {
 			pstmt = conn.prepareStatement(query);
-			resultSet = pstmt.executeQuery();
+            ResultSet resultSet = pstmt.executeQuery();
+            tokenList = new ArrayList<>();
+            while(resultSet.next()) {
+                tokenList.add(resultSet.getString("token"));
+            }
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		disconnect();
-		return resultSet;
+		return tokenList;
 	}
 }
