@@ -34,12 +34,11 @@ public class DBManager {
 		}
 	}
 	
-	public String getData() {
+	public ResultSet executeQuery(String query) {
 		connect();
-		String sql = "select name from customer";
 		String result = "";
 		try {
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(query);
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next())
 				result = rs.getString("data");
