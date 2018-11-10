@@ -36,16 +36,14 @@ public class DBManager {
 	
 	public ResultSet executeQuery(String query) {
 		connect();
-		String result = "";
+		ResultSet resultSet = null;
 		try {
 			pstmt = conn.prepareStatement(query);
-			ResultSet rs = pstmt.executeQuery();
-			if(rs.next())
-				result = rs.getString("data");
+			resultSet = pstmt.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		disconnect();
-		return result;
+		return resultSet;
 	}
 }

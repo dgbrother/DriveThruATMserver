@@ -16,7 +16,7 @@ public class FCMSender {
 
 	public FCMSender() {}
 
-	public void Send(String msgFromServer) {
+	public void Send(String msgFromServer) throws Exception {
 		message = new Message.Builder()
 		.collapseKey(MESSAGE_ID)
 		.delayWhileIdle(SHOW_ON_IDLE)
