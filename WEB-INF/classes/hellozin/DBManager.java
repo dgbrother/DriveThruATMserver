@@ -59,7 +59,7 @@ public class DBManager {
 			pstmt.setString(1, carNumber);
 			ResultSet resultSet = pstmt.executeQuery();
 
-			String currentAmount = ""
+			String currentAmount = "";
 			if(resultSet.next())
 				currentAmount = resultSet.getString("amount");
 
