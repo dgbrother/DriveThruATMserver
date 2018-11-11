@@ -52,17 +52,27 @@ public class DBManager {
 		return tokenList;
 	}
 
-	public void deposit(String amount, String nfcId) {
+	public void deposit(String amount, String carNumber) {
 		connect();
 		try {
-			pstmt = conn.prepareStatement("update customer set amount=amount+? where nfcId=?");
-			pstmt.setString(1, amount);
-			pstmt.setString(2, nfcId);
+			pstmt = conn.prepareStatement("select amount from customer where carNumber=?");
+			pstmt.setString(1, carNumber);
+			ResultSet resultSet = pstmt.executeQuery();
+
+			String currentAmount = ""
+			if(resultSet.next())
+				currentAmount = resultSet.getString("amount");
+
+			String newAmount = String.valueOf(Integer.parseInt(currentAmount) + Integer.parseInt(amount));
+
+			pstmt = conn.prepareStatement("update customer set amount=? where carNumber=?");
+			pstmt.setString(1, newAmount);
+			pstmt.setString(2, carNumber);
 			pstmt.executeUpdate();
 			
-			pstmt = conn.prepareStatement("update reservation set isdone=? where nfcId=? and type=?");
+			pstmt = conn.prepareStatement("update reservation set isdone=? where carNumber=? and type=?");
 			pstmt.setString(1, "T");
-			pstmt.setString(2, nfcId);
+			pstmt.setString(2, carNumber);
 			pstmt.setString(3, "deposit");
 		} catch (SQLException e) {
 			e.printStackTrace();

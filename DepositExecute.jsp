@@ -3,6 +3,6 @@
 <%
     request.setCharacterEncoding("UTF-8");
     String amount = request.getParameter("amount");
-    String nfcId  = request.getParameter("nfcId");
-    dbManager.deposit(amount, nfcId);
+    String carNumber  = request.getParameter("carNumber");
+    dbManager.deposit(amount, carNumber);
 %>
