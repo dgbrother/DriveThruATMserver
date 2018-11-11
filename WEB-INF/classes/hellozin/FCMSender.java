@@ -25,7 +25,7 @@ public class FCMSender {
 		.build();
 
 		DBManager manager = new DBManager();
-		ArrayList<String> token = manager.executeQuery("select * from token");
+		ArrayList<String> token = manager.getTokenList();
 		Sender sender = new Sender(APIKEY);
 		sender.send(message, token, RETRY);
 	}
