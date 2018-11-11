@@ -37,6 +37,9 @@ case "reservation":
         case "execute":
             pageContext.forward("ReservationExecute.jsp");
             break;
+        case "execute_deposit":
+            pageContext.forward("DepositExecute.jsp");
+            break;
     }
     break;
 
