@@ -74,6 +74,8 @@ public class DBManager {
 			pstmt.setString(1, "T");
 			pstmt.setString(2, carNumber);
 			pstmt.setString(3, "deposit");
+			pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
