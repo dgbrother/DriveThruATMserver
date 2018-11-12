@@ -53,5 +53,14 @@ case "notification":
             break;
     }
     break;
+case "banking":
+    switch(action) {
+        case "deposit":
+        out.print("deposit ok");
+        break;
+        case "withdraw":
+        out.print("withdraw ok");
+        break;
+    }
 }
 %>
