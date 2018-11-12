@@ -91,7 +91,6 @@ while(reservationResults.next()) {
             preparedStmt.executeUpdate();
         }
         else {
-            jsonResultMsg = new JSONObject();
             jsonResultMsg.put("no", no);
             jsonResultMsg.put("result", "false");
             jsonResultMsg.put("msg", "송금 계좌가 존재하지 않습니다.");
@@ -129,7 +128,6 @@ while(reservationResults.next()) {
             preparedStmt.setString(2, carNumber);
             preparedStmt.executeUpdate();                  
             
-            jsonResultMsg = new JSONObject();
             jsonResultMsg.put("no", no);
             jsonResultMsg.put("result", "true");
             jsonResultMsg.put("msg", "완료되었습니다.");
