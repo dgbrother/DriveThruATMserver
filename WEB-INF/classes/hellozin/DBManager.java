@@ -69,13 +69,6 @@ public class DBManager {
 			pstmt.setString(1, newAmount);
 			pstmt.setString(2, carNumber);
 			pstmt.executeUpdate();
-			
-			pstmt = conn.prepareStatement("update reservation set isdone=? where carNumber=? and type=?");
-			pstmt.setString(1, "T");
-			pstmt.setString(2, carNumber);
-			pstmt.setString(3, "deposit");
-			pstmt.executeUpdate();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
