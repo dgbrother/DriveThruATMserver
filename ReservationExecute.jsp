@@ -59,7 +59,9 @@ while(reservationResults.next()) {
         ResultSet dstAmountResult = preparedStmt.executeQuery();
         if(dstAmountResult.next()) {
             String currentAmount = dstAmountResult.getString("amount");
-            jsonResultMsg.put("test", currentAmount);
+            JSONObject obj = new JSONObject();
+            obj.put("test", currentAmount);
+            jsonResultArray.add(obj);
             String withdrawAmount = reservationResults.getString("amount");
             String newAmount = String.valueOf(Integer.parseInt(currentAmount) + Integer.parseInt(withdrawAmount));
             
