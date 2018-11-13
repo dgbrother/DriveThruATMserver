@@ -53,14 +53,18 @@ case "notification":
             break;
     }
     break;
+
 case "banking":
     switch(action) {
         case "deposit":
-        out.print("deposit ok");
-        break;
+            pageContext.forward("BankingDeposit.jsp");
+            break;
         case "withdraw":
-        out.print("withdraw ok");
-        break;
+            pageContext.forward("BankingWithdraw.jsp");
+            break;
+        case "send":
+            pageContext.forward("BankingSend.jsp");
+            break;
     }
 }
 %>

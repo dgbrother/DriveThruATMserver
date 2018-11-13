@@ -47,8 +47,9 @@ public class DBManager {
             }
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			disconnect();
 		}
-		disconnect();
 		return tokenList;
 	}
 
@@ -71,7 +72,61 @@ public class DBManager {
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			disconnect();
 		}
-		disconnect();
+	}
+
+	public void deposit2(String amount, String nfcId) {
+		connect();
+		try {
+			pstmt = conn.prepareStatement("select amount from customer where nfc=?");
+			pstmt.setString(1, nfcId);
+			ResultSet resultSet = pstmt.executeQuery();
+
+			String currentAmount = "";
+			if(resultSet.next())
+				currentAmount = resultSet.getString("amount");
+
+			String newAmount = String.valueOf(Integer.parseInt(currentAmount) + Integer.parseInt(amount));
+
+			pstmt = conn.prepareStatement("update customer set amount=? where nfc=?");
+			pstmt.setString(1, newAmount);
+			pstmt.setString(2, nfcId);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+	}
+
+	public int withdraw(String amount, String nfcId) {
+		connect();
+		try {
+			pstmt = conn.prepareStatement("select amount from customer where nfc=?");
+			pstmt.setString(1, nfcId);
+			ResultSet resultSet = pstmt.executeQuery();
+
+			String currentAmount = "";
+			if(resultSet.next())
+				currentAmount = resultSet.getString("amount");
+
+			int nAmount = Integer.parseInt(currentAmount) - Integer.parseInt(amount);
+			if(nAmount < 0)
+				return 1;
+
+			String newAmount = String.valueOf(nAmount);
+
+			pstmt = conn.prepareStatement("update customer set amount=? where nfc=?");
+			pstmt.setString(1, newAmount);
+			pstmt.setString(2, nfcId);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return 0;
 	}
 }
