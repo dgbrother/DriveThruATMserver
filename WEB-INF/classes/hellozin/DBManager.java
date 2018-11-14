@@ -129,4 +129,51 @@ public class DBManager {
 		}
 		return 0;
 	}
+
+	public int send(String amount, String nfcId, String dstAccount) {
+		connect();
+		try {
+			pstmt = conn.prepareStatement("select amount from customer where nfc=?");
+			pstmt.setString(1, nfcId);
+			ResultSet resultSet = pstmt.executeQuery();
+
+			String currentAmount = "";
+			if(resultSet.next())
+				currentAmount = resultSet.getString("amount");
+
+			int nAmount = Integer.parseInt(currentAmount) - Integer.parseInt(amount);
+			if(nAmount < 0)
+				return 1;
+
+			String newAmount = String.valueOf(nAmount);
+
+			pstmt = conn.prepareStatement("select amount from customer where dst_account=?");
+			pstmt.setString(1, dstAccount);
+			resultSet = pstmt.executeQuery();
+
+			String dstAmount = "";
+			if(resultSet.next())
+				dstAmount = resultSet.getString("amount");
+			else
+				return 2;
+
+			String newDstAmount = String.valueOf(Integer.parseInt(dstAmount) + Integer.parseInt(amount););
+
+			pstmt = conn.prepareStatement("update customer set amount=? where nfc=?");
+			pstmt.setString(1, newAmount);
+			pstmt.setString(2, nfcId);
+			pstmt.executeUpdate();
+
+			pstmt = conn.prepareStatement("update customer set amount=? where dst_account=?");
+			pstmt.setString(1, newDstAmount);
+			pstmt.setString(2, dstAccount);
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return 0;
+	}
 }
