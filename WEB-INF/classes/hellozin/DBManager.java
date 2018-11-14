@@ -164,7 +164,7 @@ public class DBManager {
 			pstmt.setString(2, nfcId);
 			pstmt.executeUpdate();
 
-			pstmt = conn.prepareStatement("update customer set amount=? where dst_account=?");
+			pstmt = conn.prepareStatement("update customer set amount=? where account=?");
 			pstmt.setString(1, newDstAmount);
 			pstmt.setString(2, dstAccount);
 			pstmt.executeUpdate();
