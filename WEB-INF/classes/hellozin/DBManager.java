@@ -147,7 +147,7 @@ public class DBManager {
 
 			String newAmount = String.valueOf(nAmount);
 
-			pstmt = conn.prepareStatement("select amount from customer where dst_account=?");
+			pstmt = conn.prepareStatement("select amount from customer where account=?");
 			pstmt.setString(1, dstAccount);
 			resultSet = pstmt.executeQuery();
 
