@@ -157,7 +157,7 @@ public class DBManager {
 			else
 				return 2;
 
-			String newDstAmount = String.valueOf(Integer.parseInt(dstAmount) + Integer.parseInt(amount););
+			String newDstAmount = String.valueOf(Integer.parseInt(dstAmount) + Integer.parseInt(amount));
 
 			pstmt = conn.prepareStatement("update customer set amount=? where nfc=?");
 			pstmt.setString(1, newAmount);
@@ -168,7 +168,7 @@ public class DBManager {
 			pstmt.setString(1, newDstAmount);
 			pstmt.setString(2, dstAccount);
 			pstmt.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
