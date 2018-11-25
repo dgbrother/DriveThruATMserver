@@ -13,8 +13,7 @@ String log = request.getParameter("log");
     <title>Testing websockets</title>
 </head>
 <body>
-</body>
-    <script type="text/javascript">
+<script type="text/javascript">
         var webSocket = new WebSocket("ws://35.200.117.1:8080/broadcasting");
         var inputMessage = "<%=log%>";
     webSocket.onerror = function(event) {
@@ -41,4 +40,5 @@ String log = request.getParameter("log");
         inputMessage = "";
     }
   </script>
+</body>
 </html>
