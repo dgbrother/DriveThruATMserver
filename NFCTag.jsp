@@ -13,6 +13,8 @@ PreparedStatement preparedStmt = conn.prepareStatement(query);
 preparedStmt.setString(1,nfcId);
 ResultSet resultSet = preparedStmt.executeQuery();
 
+String logMsg = "";
+
 String msgFromServer = "";
 JSONObject jsonObject = new JSONObject();
 if(resultSet.next()) {
@@ -20,10 +22,12 @@ if(resultSet.next()) {
     jsonObject.put("action", "nfcTag");
     jsonObject.put("nfcId", nfcId);
     jsonObject.put("carNumber", carNumber);
+    logMsg = "[알림] NFC 카드가 태그되었습니다.\nNFC ID: "+nfcId;
 }
 else {
     jsonObject.put("action", "error");
     jsonObject.put("errorType", "NOT_FOUND_NFCID");
+    logMsg = "[알림] NFC 카드가 태그되었습니다.\nNFC 정보를 찾을 수 없습니다.";
 }
 msgFromServer = jsonObject.toString();
     
@@ -59,4 +63,6 @@ if(mcresult != null) {
 out.println("MSG from server : "+msgFromServer);
 conn.close();
 preparedStmt.close();
+
+pageContext.forward("SendLog.jsp?log="+logMsg);
 %>

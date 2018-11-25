@@ -97,7 +97,6 @@
 	    }
 	    function logClear() {
 	    	textarea.value = "로그 대기중...\n";
-	        inputMessage.value = "";
 	    }
   </script>
 </html>
