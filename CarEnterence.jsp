@@ -34,7 +34,7 @@ if(resultSet.next()) {
     else {
         jsonObject.put("action", "error");
         jsonObject.put("errorType", "NOT_FOUND_RESERVATION");
-        logMsg = "[알림] 차량이 진입하였습니다. 해당 차량으로 예약된 업무를 찾을 수 없습니다.";
+        logMsg = "[알림] 차량이 진입하였습니다. 예약된 업무를 찾을 수 없습니다.";
     }
 }
 else {
