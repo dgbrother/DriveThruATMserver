@@ -54,7 +54,7 @@
 		PreparedStatement preparedStmt = conn.prepareStatement(query);
 		ResultSet resultSet = preparedStmt.executeQuery();
 		
-		while(rs.next()) {
+		while(resultSet.next()) {
             String id       = resultSet.getString("id");
             String name     = resultSet.getString("name");
         
