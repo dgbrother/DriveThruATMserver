@@ -58,7 +58,7 @@
     JSONObject jsonMain = new JSONObject();
     jsonMain.put("data", jsonArray);
     out.print(jsonMain);
-
+    out.flush();
     conn.close();
     preparedStmt.close();
 
