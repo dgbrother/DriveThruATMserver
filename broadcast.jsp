@@ -57,11 +57,18 @@
 		while(resultSet.next()) {
             String id       = resultSet.getString("id");
             String name     = resultSet.getString("name");
-        
+            String account  = resultSet.getString("account");
+            String amount   = resultSet.getString("amount");
+            String carNumber    = resultSet.getString("carnumber");
+            String nfc      = resultSet.getString("nfc");
 		%>
         <tr>
             <td width="100"><%=id%></td>
             <td width="100"><%=name%></td>
+            <td width="100"><%=account%></td>
+            <td width="100"><%=amount%></td>
+            <td width="100"><%=carNumber%></td>
+            <td width="100"><%=nfc%></td>
         </tr>
         <%
         }
