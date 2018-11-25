@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8" 
-%>
+<%@ page import="java.sql.*" import="org.json.simple.*" import="java.util.*" import="com.google.android.gcm.server.*"
+    contentType="text/html;charset=UTF-8" %>
 <% request.setCharacterEncoding("utf-8"); %>
 <!DOCTYPE html>
 <html>
@@ -55,8 +54,18 @@
 		PreparedStatement preparedStmt = conn.prepareStatement(query);
 		ResultSet resultSet = preparedStmt.executeQuery();
 		
-		
+		while(rs.next()) {
+            String id       = resultSet.getString("id");
+            String name     = resultSet.getString("name");
+        
 		%>
+        <tr>
+            <td width="100"><%=id%></td>
+            <td width="100"><%=name%></td>
+        </tr>
+        <%
+        }
+        %>
 		</table>
 		</div>
 		<div id="reservation">
