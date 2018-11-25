@@ -65,7 +65,8 @@
     out.close();
 
     String no = request.getParameter("no");
+    String logMsg = "[삭제] "+no+"번 업무가 삭제되었습니다.";
     if(no != null) {
-        pageContext.forward("SendLog.jsp?log=[삭제] "+no+"번 업무가 삭제되었습니다.");
+        pageContext.forward("SendLog.jsp?log="+logMsg);
     }
 %>
