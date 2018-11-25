@@ -54,10 +54,18 @@
         }
         jsonArray.add(jsonObject);
     }
+    
+    conn.close();
+    preparedStmt.close();
 
     JSONObject jsonMain = new JSONObject();
     jsonMain.put("data", jsonArray);
     out.print(jsonMain);
-    conn.close();
-    preparedStmt.close();
+    out.flush();
+    out.close();
+
+    String no = request.getParameter("no");
+    if(no != null) {
+        pageContext.forward("SendLog.jsp?log=[삭제] "+no+"번 업무가 삭제되었습니다.");
+    }
 %>
