@@ -45,6 +45,9 @@
 	
 		<div id="customer">
 		<table border="1">
+        <tr>
+            <th>ID</th><th>이름</th><th>계좌</th><th>잔고</th><th>차량번호</th><th>NFC</th>
+        </tr>
 		<%
 		Class.forName("com.mysql.jdbc.Driver");
 		String myUrl = "jdbc:mysql://localhost/jspdb";
