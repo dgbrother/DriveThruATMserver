@@ -29,18 +29,18 @@ if(resultSet.next()) {
         jsonObject.put("action", "carEntry");
         jsonObject.put("carNumber", carNumber);
         jsonObject.put("nfcId", nfcId);
-        logMsg = "[알림] 차량이 진입하였습니다.\n차량번호 : "+carNumber;
+        logMsg = "[알림] 차량이 진입하였습니다. 차량번호 : "+carNumber;
     }
     else {
         jsonObject.put("action", "error");
         jsonObject.put("errorType", "NOT_FOUND_RESERVATION");
-        logMsg = "[알림] 차량이 진입하였습니다.\n해당 차량으로 예약된 업무를 찾을 수 없습니다.";
+        logMsg = "[알림] 차량이 진입하였습니다. 해당 차량으로 예약된 업무를 찾을 수 없습니다.";
     }
 }
 else {
     jsonObject.put("action", "error");
     jsonObject.put("errorType", "NOT_FOUND_CARNUMBER_OR_NFCID");
-    logMsg = "[알림] 차량이 진입하였습니다.\n등록되지 않은 차량번호입니다.";
+    logMsg = "[알림] 차량이 진입하였습니다. 등록되지 않은 차량번호입니다.";
 }
 String msgFromServer = jsonObject.toString();
     

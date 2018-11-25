@@ -22,12 +22,12 @@ if(resultSet.next()) {
     jsonObject.put("action", "nfcTag");
     jsonObject.put("nfcId", nfcId);
     jsonObject.put("carNumber", carNumber);
-    logMsg = "[알림] NFC 카드가 태그되었습니다.\nNFC ID: "+nfcId;
+    logMsg = "[알림] NFC 카드가 태그되었습니다. NFC ID: "+nfcId;
 }
 else {
     jsonObject.put("action", "error");
     jsonObject.put("errorType", "NOT_FOUND_NFCID");
-    logMsg = "[알림] NFC 카드가 태그되었습니다.\nNFC 정보를 찾을 수 없습니다.";
+    logMsg = "[알림] NFC 카드가 태그되었습니다. NFC 정보를 찾을 수 없습니다.";
 }
 msgFromServer = jsonObject.toString();
     
