@@ -62,16 +62,16 @@
             String name     = resultSet.getString("name");
             String account  = resultSet.getString("account");
             String amount   = resultSet.getString("amount");
-            String carNumber    = resultSet.getString("carnumber");
+            String carNumber= resultSet.getString("carnumber");
             String nfc      = resultSet.getString("nfc");
 		%>
         <tr>
-            <td width="100"><%=id%></td>
-            <td width="100"><%=name%></td>
-            <td width="100"><%=account%></td>
-            <td width="100"><%=amount%></td>
-            <td width="100"><%=carNumber%></td>
-            <td width="100"><%=nfc%></td>
+            <td><%=id%></td>
+            <td><%=name%></td>
+            <td><%=account%></td>
+            <td><%=amount%></td>
+            <td><%=carNumber%></td>
+            <td><%=nfc%></td>
         </tr>
         <%
         }
