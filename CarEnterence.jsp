@@ -15,8 +15,6 @@ PreparedStatement preparedStmt = conn.prepareStatement(query);
 preparedStmt.setString(1,carNumber);
 ResultSet resultSet = preparedStmt.executeQuery();
 
-String logMsg = "";
-
 JSONObject jsonObject = new JSONObject();
 if(resultSet.next()) {
     query = "select no from reservation where carnumber = ?";
@@ -29,18 +27,15 @@ if(resultSet.next()) {
         jsonObject.put("action", "carEntry");
         jsonObject.put("carNumber", carNumber);
         jsonObject.put("nfcId", nfcId);
-        logMsg = "[알림] 차량이 진입하였습니다. 차량번호 : "+carNumber;
     }
     else {
         jsonObject.put("action", "error");
         jsonObject.put("errorType", "NOT_FOUND_RESERVATION");
-        logMsg = "[알림] 차량이 진입하였습니다. 예약된 업무를 찾을 수 없습니다.";
     }
 }
 else {
     jsonObject.put("action", "error");
     jsonObject.put("errorType", "NOT_FOUND_CARNUMBER_OR_NFCID");
-    logMsg = "[알림] 차량이 진입하였습니다. 등록되지 않은 차량번호입니다.";
 }
 String msgFromServer = jsonObject.toString();
     
@@ -48,6 +43,4 @@ message.Send(msgFromServer);
 out.println("MSG from server : "+msgFromServer);
 conn.close();
 preparedStmt.close();
-
-pageContext.forward("SendLog.jsp?log="+logMsg);
 %>
