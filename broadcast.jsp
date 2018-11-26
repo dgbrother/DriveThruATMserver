@@ -27,6 +27,10 @@
 	    width: 50%;
 	    float: right;
 	    }
+
+		#tables table {
+		width: 50%;
+		}
     </style>
 </head>
 <body>
