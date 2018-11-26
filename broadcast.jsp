@@ -29,7 +29,7 @@
 	    }
 
 		#tables table {
-		width: 50%;
+		width: 80%;
 		}
     </style>
 </head>
