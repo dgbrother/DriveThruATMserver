@@ -20,7 +20,9 @@
 <body>
 	<div id="init_button">
 		<h1>Drive Thru ATM</h1>
-		
+
+		<button onClick="window.location.reload()">새로 고침</button>
+
 		<h2>DB 초기화</h2>
 		<table>
 		<tr>
@@ -83,7 +85,14 @@
 
 			<table border="1">
 			<tr>
-				<th>No</th><th>Type</th><th>id</th><th>차량번호</th><th>본인계좌</th><th>상대계좌</th><th>금액</th><th>처리상태</th>
+				<th width="65px">No</th>
+				<th width="80px">Type</th>
+				<th width="80px">id</th>
+				<th width="150px">차량번호</th>
+				<th width="180px">본인계좌</th>
+				<th width="180px">상대계좌</th>
+				<th width="150px">금액</th>
+				<th width="100px">처리상태</th>
 			</tr>
 			<%
 			query = "select * from reservation order by no desc";
