@@ -48,6 +48,12 @@ while(reservationResults.next()) {
         jsonResultMsg.put("result", "true");
         jsonResultMsg.put("msg", "완료되었습니다.");
         jsonResultArray.add(jsonResultMsg);
+
+        query = "update reservation set isdone=? where no=?";
+        preparedStmt = conn.prepareStatement(query);
+        preparedStmt.setString(1, "T");
+        preparedStmt.setString(2, no);
+        preparedStmt.executeUpdate(); 
         break;
         
         case "send":
@@ -78,6 +84,12 @@ while(reservationResults.next()) {
                 jsonResultMsg.put("result", "false");
                 jsonResultMsg.put("msg", "잔액이 부족합니다.");
                 jsonResultArray.add(jsonResultMsg);
+
+                query = "update reservation set isdone=? where no=?";
+                preparedStmt = conn.prepareStatement(query);
+                preparedStmt.setString(1, "N");
+                preparedStmt.setString(2, no);
+                preparedStmt.executeUpdate(); 
                 break;
             }
 
@@ -92,6 +104,12 @@ while(reservationResults.next()) {
             jsonResultMsg.put("result", "false");
             jsonResultMsg.put("msg", "송금 계좌가 존재하지 않습니다.");
             jsonResultArray.add(jsonResultMsg);
+
+            query = "update reservation set isdone=? where no=?";
+            preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setString(1, "N");
+            preparedStmt.setString(2, no);
+            preparedStmt.executeUpdate(); 
             break;
         }
 
@@ -110,6 +128,12 @@ while(reservationResults.next()) {
                 jsonResultMsg.put("result", "false");
                 jsonResultMsg.put("msg", "잔액이 부족합니다.");
                 jsonResultArray.add(jsonResultMsg);
+
+                query = "update reservation set isdone=? where no=?";
+                preparedStmt = conn.prepareStatement(query);
+                preparedStmt.setString(1, "N");
+                preparedStmt.setString(2, no);
+                preparedStmt.executeUpdate(); 
                 break;
             }
 
@@ -119,10 +143,10 @@ while(reservationResults.next()) {
             preparedStmt.setString(2, carNumber);
             preparedStmt.executeUpdate();
 
-            query = "update reservation set isdone=? where carNumber=?";
+            query = "update reservation set isdone=? where no=?";
             preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString(1, "T");
-            preparedStmt.setString(2, carNumber);
+            preparedStmt.setString(2, no);
             preparedStmt.executeUpdate();                  
             
             jsonResultMsg.put("no", no);
@@ -135,6 +159,12 @@ while(reservationResults.next()) {
             jsonResultMsg.put("result", "false");
             jsonResultMsg.put("msg", "등록되지 않은 차량번호 입니다.");
             jsonResultArray.add(jsonResultMsg);
+
+            query = "update reservation set isdone=? where no=?";
+            preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setString(1, "N");
+            preparedStmt.setString(2, no);
+            preparedStmt.executeUpdate(); 
         }
         break;
     }

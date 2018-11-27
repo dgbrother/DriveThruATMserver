@@ -97,7 +97,9 @@
 			<tr bgcolor="#ffd1d1">
 			<%} else if(isDone.equals("T")) {%>
 			<tr bgcolor="#eff0ff">
-			<%}%>
+			<%} else if(isDone.equals("N")) {%>
+			<tr bgcolor="#faffd1">
+			<%}%>%>
 				<td style="text-align: center"><%=no%></td>
 				<td style="text-align: center"><%switch(type){case "deposit": %>입금<%break; case "withdraw": %>출금<%break; case "send":%>송금<% break;}%></td>
 				<td style="text-align: center"><%=id%></td>
@@ -105,7 +107,7 @@
 				<td style="text-align: center"><%=srcAccount%></td>
 				<td style="text-align: center"><%=dstAccount%></td>
 				<td style="text-align: right"><%=amount%> 원</td>
-				<td style="text-align: center"><%switch(isDone){case "T": %>처리 완료<%break; case "F": %>예약중<%}%></td>
+				<td style="text-align: center"><%switch(isDone){case "T": %>처리 완료<%break; case "F": %>예약중<% break; case "N": %>실패<%}%></td>
 			</tr>
 			<%
 			}
