@@ -51,11 +51,7 @@ while(resultSet.next())
 
 Sender sender = new Sender(APIKEY);
 MulticastResult mcresult = sender.send(message,token,RETRY);
-if(mcresult != null) {
-    List<Result> resultList = mcresult.getResults();
-    for(Result mr : resultList)
-        out.println(mr.getErrorCodeName());
-}
+
 out.println("MSG from server : "+msgFromServer);
 conn.close();
 preparedStmt.close();
