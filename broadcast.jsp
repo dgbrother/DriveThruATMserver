@@ -84,9 +84,9 @@
 				String amount	= resultSet.getString("amount");
 				String isDone	= resultSet.getString("isdone");
 			%>
-			<%if(e.equals("F")) {%>
+			<%if(isDone.equals("F")) {%>
 			<tr bgcolor="#ffd1d1">
-			<%} else if(e.equals("T")) {%>
+			<%} else if(isDone.equals("T")) {%>
 			<tr bgcolor="#eff0ff">
 			<%}%>
 				<td style="text-align: center"><%=no%></td>
