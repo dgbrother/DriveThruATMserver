@@ -70,12 +70,12 @@
             String nfc      = resultSet.getString("nfc");
 		%>
         <tr>
-            <td text-align="center"><%=id%></td>
-            <td text-align="center"><%=name%></td>
-            <td text-align="center"><%=account%></td>
-            <td text-align="right"><%=amount%></td>
-            <td text-align="center"><%=carNumber%></td>
-            <td text-align="center"><%=nfc%></td>
+            <td style="text-align: center"><%=id%></td>
+            <td style="text-align: center"><%=name%></td>
+            <td style="text-align: center"><%=account%></td>
+            <td style="text-align: right"><%=amount%></td>
+            <td style="text-align: center"><%=carNumber%></td>
+            <td style="text-align: center"><%=nfc%></td>
         </tr>
         <%
         }
