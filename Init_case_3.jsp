@@ -12,9 +12,8 @@
     preparedStmt.setString(1, "10000");
     preparedStmt.executeUpdate();
     
-    query = "update reservation set isdone=?";
+    query = "delete from reservation";
     preparedStmt = conn.prepareStatement(query);
-    preparedStmt.setString(1, "T");
     preparedStmt.executeUpdate();
 
     query = "insert into reservation(type,id,carnumber,src_account,dst_account,amount,isdone) values(?,?,?,?,?,?,?);";
