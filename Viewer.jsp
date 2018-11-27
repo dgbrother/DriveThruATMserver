@@ -15,10 +15,6 @@
 	    width: 65%;
 	    margin: 0 auto;
 	    }
-
-		#tables table {
-		width: 100%;
-		}
     </style>
 </head>
 <body>
@@ -59,12 +55,12 @@
             String nfc      = resultSet.getString("nfc");
 		%>
         <tr>
-            <td style="text-align: center"><%=id%></td>
-            <td style="text-align: center"><%=name%></td>
-            <td style="text-align: center"><%=account%></td>
-            <td style="text-align: right"><%=amount%> 원</td>
-            <td style="text-align: center"><%=carNumber%></td>
-            <td style="text-align: center"><%=nfc%></td>
+            <td width="80px" style="text-align: center"><%=id%></td>
+            <td width="80px" style="text-align: center"><%=name%></td>
+            <td width="180px" style="text-align: center"><%=account%></td>
+            <td width="150px" style="text-align: right"><%=amount%> 원</td>
+            <td width="150px" style="text-align: center"><%=carNumber%></td>
+            <td width="200px" style="text-align: center"><%=nfc%></td>
         </tr>
         <%
         }
@@ -100,14 +96,14 @@
 			<%} else if(isDone.equals("N")) {%>
 			<tr bgcolor="#faffd1">
 			<%}%>
-				<td style="text-align: center"><%=no%></td>
-				<td style="text-align: center"><%switch(type){case "deposit": %>입금<%break; case "withdraw": %>출금<%break; case "send":%>송금<% break;}%></td>
-				<td style="text-align: center"><%=id%></td>
-				<td style="text-align: center"><%=carNumber%></td>
-				<td style="text-align: center"><%=srcAccount%></td>
-				<td style="text-align: center"><%=dstAccount%></td>
-				<td style="text-align: right"><%=amount%> 원</td>
-				<td style="text-align: center"><%switch(isDone){case "T": %>처리 완료<%break; case "F": %>예약중<% break; case "N": %>실패<%}%></td>
+				<td width="65px" style="text-align: center"><%=no%></td>
+				<td width="80px" style="text-align: center"><%switch(type){case "deposit": %>입금<%break; case "withdraw": %>출금<%break; case "send":%>송금<% break;}%></td>
+				<td width="80px" style="text-align: center"><%=id%></td>
+				<td width="150px" style="text-align: center"><%=carNumber%></td>
+				<td width="180px" style="text-align: center"><%=srcAccount%></td>
+				<td width="180px" style="text-align: center"><%=dstAccount%></td>
+				<td width="150px" style="text-align: right"><%=amount%> 원</td>
+				<td width="100px" style="text-align: center"><%switch(isDone){case "T": %>처리 완료<%break; case "F": %>예약중<% break; case "N": %>실패<%}%></td>
 			</tr>
 			<%
 			}
