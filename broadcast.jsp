@@ -7,43 +7,26 @@
 	<meta charset="UTF-8">
     <title>Testing websockets</title>
     <style>
-	    #log {
-	    width: 40%;
-	    float: left;
-	    }
-	    
-	    #log textarea {
-	    width: 95%;
-	    height: 600px;
-	    margin: 0 auto;
-	    font-size: x-large;
-	    }
-	    
-	    #log input {
-	    font-size: x-large;
-	    }
-	    
+    	#init_button {
+    	margin: 0 auto;
+    	width: 65%;
+    	}
 	    #tables {
-	    width: 50%;
-	    float: right;
+	    width: 65%;
+	    margin: 0 auto;
 	    }
 
 		#tables table {
-		width: 80%;
+		width: 100%;
 		}
     </style>
 </head>
 <body>
-	
-	<div id = "log">
-	<h2>Drive Thru ATM Log</h2>
-	<fieldset>
-        <textarea id="messageWindow" rows="10" cols="50" readonly="true" autofocus="autofocus"></textarea>
-        <br/>
-        <input type="button" value="clear" onclick="logClear()" />
-    </fieldset>
+	<div id="init_button">
+		<h2>DB Setting</h2>
+		<input type="button" value="초기화1" onclick="case_1();" />
 	</div>
-	
+
 	<div id="tables">
 	<h2>Drive Thru ATM Tables</h2>
 	
@@ -73,7 +56,7 @@
             <td style="text-align: center"><%=id%></td>
             <td style="text-align: center"><%=name%></td>
             <td style="text-align: center"><%=account%></td>
-            <td style="text-align: right"><%=amount%></td>
+            <td style="text-align: right"><%=amount%> 원</td>
             <td style="text-align: center"><%=carNumber%></td>
             <td style="text-align: center"><%=nfc%></td>
         </tr>
@@ -83,7 +66,44 @@
 		</table>
 		</div>
 		<div id="reservation">
-		reservation
+			<table border="1">
+			<tr>
+				<th>No</th><th>Type</th><th>id</th><th>차량번호</th><th>본인계좌</th><th>상대계좌</th><th>금액</th><th>처리상태</th>
+			</tr>
+			<%
+			query = "select * from reservation";
+			preparedStmt = conn.prepareStatement(query);
+			resultSet = preparedStmt.executeQuery();
+			while(resultSet.next()) {
+				String no       = resultSet.getString("no");
+				String type     = resultSet.getString("type");
+				String id		= resultSet.getString("id");
+				String carNumber  = resultSet.getString("carnumber");
+				String srcAccount = resultSet.getString("src_account");
+				String dstAccount = resultSet.getString("dst_account");
+				String amount	= resultSet.getString("amount");
+				String isDone	= resultSet.getString("isdone");
+			%>
+			<%if(e.equals("F")) {%>
+			<tr bgcolor="#ffd1d1">
+			<%} else if(e.equals("T")) {%>
+			<tr bgcolor="#eff0ff">
+			<%}%>
+				<td style="text-align: center"><%=no%></td>
+				<td style="text-align: center"><%switch(type){case "deposit": %>입금<%break; case "withdraw": %>출금<%break; case "send":%>송금<% break;}%></td>
+				<td style="text-align: center"><%=id%></td>
+				<td style="text-align: center"><%=carNumber%></td>
+				<td style="text-align: center"><%=srcAccount%></td>
+				<td style="text-align: center"><%=dstAccount%></td>
+				<td style="text-align: right"><%=amount%> 원</td>
+				<td style="text-align: center"><%switch(isDone){case "T": %>처리 완료<%break; case "F": %>예약중<%}%></td>
+			</tr>
+			<%
+			}
+			preparedStmt.close();
+			conn.close();
+			%>
+			</table>
 		</div>
 	</div>
 </body>
