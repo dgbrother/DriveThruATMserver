@@ -55,5 +55,8 @@
     preparedStmt.setString(7, "F");
     preparedStmt.executeUpdate();
 
+    conn.close();
+    preparedStmt.close();
+
     response.sendRedirect("Viewer.jsp");
 %>
