@@ -14,7 +14,7 @@
     
     query = "update reservation set isdone=?";
     preparedStmt = conn.prepareStatement(query);
-    preparedStmt.setString(1, "F");
+    preparedStmt.setString(1, "T");
     preparedStmt.executeUpdate();
 
     query = "insert into reservation(type,id,carnumber,src_account,dst_account,amount,isdone) values(?,?,?,?,?,?,?);";
