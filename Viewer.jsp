@@ -18,14 +18,21 @@
     </style>
 </head>
 <body>
-	<h1>Drive Thru ATM</h1>
 	<div id="init_button">
+		<h1>Drive Thru ATM</h1>
+		
 		<h2>DB 초기화</h2>
 		<table>
 		<tr>
 			<td>모든업무 성공</td><td><input type="button" value="초기화" onclick="initcase(1);" /></td>
+		</tr>
+		<tr>
 			<td>일부업무 실패</td><td><input type="button" value="초기화" onclick="initcase(2);" /></td>
+		</tr>
+		<tr>
 			<td>모든업무 실패</td><td><input type="button" value="초기화" onclick="initcase(3);" /></td>
+		</tr>
+		<tr>
 			<td>모든 예약정보 삭제</td><td><input type="button" value="초기화" onclick="initcase(0);" /></td>
 		</tr>
 		</table>
