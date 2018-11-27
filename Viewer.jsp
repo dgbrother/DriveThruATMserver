@@ -24,7 +24,10 @@
 <body>
 	<div id="init_button">
 		<h2>DB Setting</h2>
-		<input type="button" value="초기화1" onclick="case_1();" />
+		모든업무 성공<input type="button" value="초기화" onclick="initcase(1);" /><br/>
+		일부업무 실패<input type="button" value="초기화" onclick="initcase(2);" /><br/>
+		모든업무 실패<input type="button" value="초기화" onclick="initcase(3);" /><br/>
+		모든 예약정보 삭제<input type="button" value="초기화" onclick="initcase(0);" /><br/>
 	</div>
 
 	<div id="tables">
@@ -114,8 +117,15 @@
 	</div>
 </body>
 <script>
-    function case_1() {
-	document.location.href ='./Init_case_1.jsp'; 
+    function initcase(i) {
+		if(i == 1)
+			document.location.href ='./Init_case_1.jsp';
+		else if(i == 2)
+			document.location.href ='./Init_case_2.jsp';
+		else if(i == 3)
+			document.location.href ='./Init_case_3.jsp'; 
+		else if(i == 0)
+			document.location.href ='./Init_delete.jsp'; 
 }
 </script>
 </html>
