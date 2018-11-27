@@ -71,12 +71,13 @@ public class DBManager {
 			pstmt.setString(2, carNumber);
 			pstmt.executeUpdate();
 
-			pstmt = conn.prepareStatement("update reservation set amount=? where carNumber=? and isdone=?");
+			pstmt = conn.prepareStatement("update reservation set amount=? where carNumber=? and isdone=? and type=?");
 			pstmt.setString(1, amount);
 			pstmt.setString(2, carNumber);
 			pstmt.setString(3, "F");
-
+			pstmt.setString(4, "deposit");
 			pstmt.executeUpdate(); 
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
