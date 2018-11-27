@@ -60,7 +60,7 @@
             <td width="180px" style="text-align: center"><%=account%></td>
             <td width="150px" style="text-align: right"><%=amount%> 원</td>
             <td width="180px" style="text-align: center"><%=carNumber%> <input type="button" value="진입" onclick="carBtn('<%=carNumber%>');" /></td>
-            <td width="230px" style="text-align: center"><%=nfc%></td>
+            <td width="230px" style="text-align: center"><%=nfc%> <input type="button" value="태그" onclick="nfcBtn('<%=nfc%>');"</td>
         </tr>
         <%
         }
@@ -126,7 +126,10 @@
 			document.location.href ='./Init_delete.jsp'; 
 	}
 	function carBtn(s) {
-		alert("click "+s);
+		document.location.href ='./control.jsp?type=notification&action=carEntry&carNumber='+s;
+	}
+	function nfcBtn(s) {
+		document.location.href ='./control.jsp?type=notification&action=nfcTag&nfcId='+s;
 	}
 </script>
 </html>
