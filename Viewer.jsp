@@ -77,7 +77,7 @@
 				<th>No</th><th>Type</th><th>id</th><th>차량번호</th><th>본인계좌</th><th>상대계좌</th><th>금액</th><th>처리상태</th>
 			</tr>
 			<%
-			query = "select * from reservation order by desc";
+			query = "select * from reservation order by no desc";
 			preparedStmt = conn.prepareStatement(query);
 			resultSet = preparedStmt.executeQuery();
 			while(resultSet.next()) {
