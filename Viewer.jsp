@@ -18,20 +18,23 @@
     </style>
 </head>
 <body>
+	<h1>Drive Thru ATM</h1>
 	<div id="init_button">
-		<h2>DB Setting</h2>
-		모든업무 성공<input type="button" value="초기화" onclick="initcase(1);" /><br/>
-		일부업무 실패<input type="button" value="초기화" onclick="initcase(2);" /><br/>
-		모든업무 실패<input type="button" value="초기화" onclick="initcase(3);" /><br/>
-		모든 예약정보 삭제<input type="button" value="초기화" onclick="initcase(0);" /><br/>
+		<h2>DB 초기화</h2>
+		<table>
+		<tr>
+			<td>모든업무 성공</td><td><input type="button" value="초기화" onclick="initcase(1);" /></td>
+			<td>일부업무 실패</td><td><input type="button" value="초기화" onclick="initcase(2);" /></td>
+			<td>모든업무 실패</td><td><input type="button" value="초기화" onclick="initcase(3);" /></td>
+			<td>모든 예약정보 삭제</td><td><input type="button" value="초기화" onclick="initcase(0);" /></td>
+		</tr>
+		</table>
 	</div>
 
-	<div id="tables">
-	<h2>Drive Thru ATM Tables</h2>
-	
+	<div id="tables">	
 		<div id="customer">
 		
-		<h3>고객 테이블</h3>
+		<h2>고객 테이블</h2>
 
 		<table border="1">
         <tr>
@@ -69,7 +72,7 @@
 		</div>
 		<div id="reservation">
 
-			<h3>예약 테이블</h3>
+			<h2>예약 테이블</h2>
 
 			<table border="1">
 			<tr>
@@ -126,10 +129,10 @@
 			document.location.href ='./Init_delete.jsp'; 
 	}
 	function carBtn(s) {
-		document.location.href ='./control.jsp?type=notification&action=carEntry&carNumber='+s;
+		document.location.href ='./control.jsp?type=notification&action=carEntry&from=viewer&carNumber='+s;
 	}
 	function nfcBtn(s) {
-		document.location.href ='./control.jsp?type=notification&action=nfcTag&nfcId='+s;
+		document.location.href ='./control.jsp?type=notification&from=viewer&action=nfcTag&nfcId='+s;
 	}
 </script>
 </html>

@@ -55,4 +55,10 @@ MulticastResult mcresult = sender.send(message,token,RETRY);
 out.println("MSG from server : "+msgFromServer);
 conn.close();
 preparedStmt.close();
+
+String from = request.getParameter("from");
+if(from != null) {
+    if(from.equals("viewer"))
+        response.sendRedirect("Viewer.jsp");
+}
 %>

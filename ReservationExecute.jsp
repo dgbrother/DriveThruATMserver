@@ -53,7 +53,7 @@ while(reservationResults.next()) {
         preparedStmt = conn.prepareStatement(query);
         preparedStmt.setString(1, "T");
         preparedStmt.setString(2, no);
-        preparedStmt.executeUpdate(); 
+        preparedStmt.executeUpdate();
         break;
         
         case "send":
