@@ -31,6 +31,9 @@
 	<h2>Drive Thru ATM Tables</h2>
 	
 		<div id="customer">
+		
+		<h3>고객 테이블</h3>
+
 		<table border="1">
         <tr>
             <th>ID</th><th>이름</th><th>계좌</th><th>잔고</th><th>차량번호</th><th>NFC</th>
@@ -66,6 +69,9 @@
 		</table>
 		</div>
 		<div id="reservation">
+
+			<h3>예약 테이블</h3>
+
 			<table border="1">
 			<tr>
 				<th>No</th><th>Type</th><th>id</th><th>차량번호</th><th>본인계좌</th><th>상대계좌</th><th>금액</th><th>처리상태</th>
