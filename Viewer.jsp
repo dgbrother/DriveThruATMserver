@@ -59,8 +59,8 @@
             <td width="80px" style="text-align: center"><%=name%></td>
             <td width="180px" style="text-align: center"><%=account%></td>
             <td width="150px" style="text-align: right"><%=amount%> 원</td>
-            <td width="150px" style="text-align: center"><%=carNumber%></td>
-            <td width="200px" style="text-align: center"><%=nfc%></td>
+            <td width="180px" style="text-align: center"><%=carNumber%> <input type="button" value="진입" onclick="carBtn('<%=carNumber%>');" /></td>
+            <td width="230px" style="text-align: center"><%=nfc%></td>
         </tr>
         <%
         }
@@ -124,6 +124,9 @@
 			document.location.href ='./Init_case_3.jsp'; 
 		else if(i == 0)
 			document.location.href ='./Init_delete.jsp'; 
-}
+	}
+	function carBtn(s) {
+		alert("click "+s);
+	}
 </script>
 </html>
