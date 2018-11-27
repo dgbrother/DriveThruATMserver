@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-    <title>Testing websockets</title>
+    <title>Drive Thru ATM</title>
     <style>
     	#init_button {
     	margin: 0 auto;
