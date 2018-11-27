@@ -113,30 +113,9 @@
 		</div>
 	</div>
 </body>
-    <script type="text/javascript">
-        var textarea = document.getElementById("messageWindow");
-        var webSocket = new WebSocket("ws://35.200.117.1:8080/broadcasting");
-	    webSocket.onerror = function(event) {
-	      onError(event)
-	    };
-	    webSocket.onopen = function(event) {
-	      onOpen(event)
-	    };
-	    webSocket.onmessage = function(event) {
-	      onMessage(event)
-	    };
-	    function onMessage(event) {
-	        textarea.value += event.data + "\n";
-	        textarea.scrollTop = textarea.scrollHeight;
-	    }
-	    function onOpen(event) {
-	        textarea.value += "로그 대기중...\n";
-	    }
-	    function onError(event) {
-	      alert(event.data);
-	    }
-	    function logClear() {
-	    	textarea.value = "로그 대기중...\n";
-	    }
-  </script>
+<script>
+    function case_1() {
+	document.location.href ='./Init_case_1.jsp'; 
+}
+</script>
 </html>
