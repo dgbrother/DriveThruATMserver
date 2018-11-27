@@ -13,12 +13,12 @@
     preparedStmt.executeUpdate();
     
     query = "update reservation set isdone=?";
-    PreparedStatement preparedStmt = conn.prepareStatement(query);
+    preparedStmt = conn.prepareStatement(query);
     preparedStmt.setString(1, "F");
     preparedStmt.executeUpdate();
 
     query = "insert into reservation(type,id,carnumber,src_account,dst_account,amount,isdone) values(?,?,?,?,?,?,?);";
-    PreparedStatement preparedStmt = conn.prepareStatement(query);
+    preparedStmt = conn.prepareStatement(query);
     preparedStmt.setString(1, "withdraw");
     preparedStmt.setString(2, "ID1859");
     preparedStmt.setString(3, "28무0218");
